@@ -16,7 +16,7 @@ const config: Config = {
           200: '#bfdbfe',
           300: '#93c5fd',
           400: '#60a5fa',
-          500: '#3b82f6',   // Primary accent
+          500: '#3b82f6', // Primary accent
           600: '#2563eb',
           700: '#1d4ed8',
           800: '#1e40af',
@@ -25,7 +25,7 @@ const config: Config = {
         },
         violet: {
           500: '#8b5cf6',
-          600: '#7c3aed',   // Secondary accent
+          600: '#7c3aed', // Secondary accent
           700: '#6d28d9',
         },
       },
@@ -69,6 +69,10 @@ const config: Config = {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-100%)' },
         },
+        'marquee-reverse': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.5s ease-out forwards',
@@ -77,6 +81,7 @@ const config: Config = {
         'scale-in': 'scale-in 0.2s ease-out forwards',
         shimmer: 'shimmer 2s linear infinite',
         marquee: 'marquee 25s linear infinite',
+        'marquee-reverse': 'marquee-reverse 25s linear infinite',
       },
     },
   },

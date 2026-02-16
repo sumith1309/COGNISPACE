@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
+import { ThemeProvider } from '@/components/shared/theme-provider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/shared/toaster';
 
 const inter = Inter({
@@ -67,14 +69,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${mono.variable} font-sans antialiased`}>
-        <a
-          href="#main-content"
-          className="focus:bg-brand-500 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange
         >
-          Skip to main content
-        </a>
-        <main id="main-content">{children}</main>
-        <Toaster />
+          <TooltipProvider delayDuration={150}>
+            <a
+              href="#main-content"
+              className="focus:bg-brand-500 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+            >
+              Skip to main content
+            </a>
+            {children}
+            <Toaster />
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
