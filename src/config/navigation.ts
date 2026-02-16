@@ -43,10 +43,26 @@ export const mainNavigation: NavItem[] = [
     title: 'Solutions',
     href: '/solutions',
     children: [
-      { title: 'Healthcare', href: '/solutions#healthcare', description: 'AI for medical data analysis and diagnostics' },
-      { title: 'Finance', href: '/solutions#finance', description: 'Intelligent risk assessment and automation' },
-      { title: 'E-commerce', href: '/solutions#ecommerce', description: 'Personalization and recommendation engines' },
-      { title: 'Legal', href: '/solutions#legal', description: 'Document analysis and contract intelligence' },
+      {
+        title: 'Healthcare',
+        href: '/solutions#healthcare',
+        description: 'AI for medical data analysis and diagnostics',
+      },
+      {
+        title: 'Finance',
+        href: '/solutions#finance',
+        description: 'Intelligent risk assessment and automation',
+      },
+      {
+        title: 'E-commerce',
+        href: '/solutions#ecommerce',
+        description: 'Personalization and recommendation engines',
+      },
+      {
+        title: 'Legal',
+        href: '/solutions#legal',
+        description: 'Document analysis and contract intelligence',
+      },
     ],
   },
   { title: 'Pricing', href: '/pricing' },
