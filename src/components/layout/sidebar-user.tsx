@@ -27,7 +27,6 @@ export function SidebarUser({
   user = {
     name: 'Demo User',
     email: 'demo@cognispace.com',
-    avatarUrl: undefined,
   },
 }: SidebarUserProps) {
   const initials = user.name

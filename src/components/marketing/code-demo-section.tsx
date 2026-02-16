@@ -73,6 +73,7 @@ export function CodeDemoSection() {
       const timeout = setTimeout(() => start(), 800);
       return () => clearTimeout(timeout);
     }
+    return undefined;
   }, [isInView, start]);
 
   const features = [
@@ -121,7 +122,7 @@ export function CodeDemoSection() {
             </ul>
 
             <Link
-              href="/docs"
+              href={'/docs' as '/'}
               className="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 mt-8 inline-flex w-fit items-center text-sm font-medium transition-colors"
             >
               Read the docs →

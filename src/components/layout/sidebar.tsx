@@ -51,7 +51,7 @@ export function Sidebar() {
 
             const navItem = (
               <Link
-                href={item.href}
+                href={item.href as '/'}
                 className={cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all',
                   'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',

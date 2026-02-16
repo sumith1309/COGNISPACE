@@ -29,7 +29,7 @@ export function AnimatedHeadline({ text, highlightWords = [] }: AnimatedHeadline
       y: 0,
       filter: 'blur(0px)',
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         damping: 30,
         stiffness: 100,
       },

@@ -27,7 +27,10 @@ function MetricItem({
   return (
     <div className="flex flex-col items-center text-center">
       <Icon className="mb-3 h-6 w-6 text-slate-300" aria-hidden="true" />
-      <div ref={ref} className="gradient-text text-4xl font-bold lg:text-5xl">
+      <div
+        ref={ref as React.Ref<HTMLDivElement>}
+        className="gradient-text text-4xl font-bold lg:text-5xl"
+      >
         {prefix}
         {count.toLocaleString()}
         {suffix}

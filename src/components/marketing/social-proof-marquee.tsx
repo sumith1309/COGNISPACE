@@ -24,8 +24,10 @@ interface CompanyLogoProps {
 
 function CompanyLogo({ name }: CompanyLogoProps) {
   return (
-    <div className="flex items-center justify-center px-8">
-      <span className="text-2xl font-semibold text-slate-200 dark:text-slate-700">{name}</span>
+    <div className="flex shrink-0 items-center justify-center px-8">
+      <span className="text-2xl font-semibold whitespace-nowrap text-slate-200 dark:text-slate-700">
+        {name}
+      </span>
     </div>
   );
 }
@@ -42,14 +44,14 @@ export function SocialProofMarquee() {
       <div className="relative overflow-hidden">
         {/* Top Row - Scroll Left */}
         <div className="mb-8 flex">
-          <div className="animate-marquee flex hover:[animation-play-state:paused]">
+          <div className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]">
             {companies.map((company, i) => (
               <CompanyLogo key={`top-1-${i}`} name={company} />
             ))}
           </div>
           {/* Duplicate for seamless loop */}
           <div
-            className="animate-marquee flex hover:[animation-play-state:paused]"
+            className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]"
             aria-hidden="true"
           >
             {companies.map((company, i) => (
@@ -60,7 +62,7 @@ export function SocialProofMarquee() {
 
         {/* Bottom Row - Scroll Right */}
         <div className="flex">
-          <div className="animate-marquee-reverse flex hover:[animation-play-state:paused]">
+          <div className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]">
             {companies
               .slice()
               .reverse()
@@ -70,7 +72,7 @@ export function SocialProofMarquee() {
           </div>
           {/* Duplicate for seamless loop */}
           <div
-            className="animate-marquee-reverse flex hover:[animation-play-state:paused]"
+            className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]"
             aria-hidden="true"
           >
             {companies

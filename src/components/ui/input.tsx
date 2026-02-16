@@ -4,11 +4,11 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  helperText?: string;
-  error?: string;
-  leftElement?: React.ReactNode;
-  rightElement?: React.ReactNode;
+  label?: string | undefined;
+  helperText?: string | undefined;
+  error?: string | undefined;
+  leftElement?: React.ReactNode | undefined;
+  rightElement?: React.ReactNode | undefined;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(

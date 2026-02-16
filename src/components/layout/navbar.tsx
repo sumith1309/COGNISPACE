@@ -100,12 +100,12 @@ export function Navbar() {
                       className="mt-3 w-[600px] rounded-xl border border-slate-200 bg-white/80 p-4 shadow-xl backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80"
                     >
                       <div className="grid grid-cols-2 gap-3">
-                        {(mainNavigation[0].children || []).map((item, index) => {
+                        {(mainNavigation[0]?.children || []).map((item, index) => {
                           const Icon = getIcon(item.icon || '');
                           return (
                             <NavigationMenu.Link key={item.title} asChild>
                               <Link
-                                href={item.href}
+                                href={item.href as '/'}
                                 className={cn(
                                   'group block rounded-lg border border-slate-200 p-4 dark:border-slate-800',
                                   'transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50'
@@ -139,7 +139,7 @@ export function Navbar() {
                 {mainNavigation.slice(1).map((item) => (
                   <NavigationMenu.Item key={item.title}>
                     <Link
-                      href={item.href}
+                      href={item.href as '/'}
                       className={cn(
                         'inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium',
                         'text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white',
@@ -220,12 +220,12 @@ export function Navbar() {
                         <ChevronDown className="h-4 w-4" />
                       </Collapsible.Trigger>
                       <Collapsible.Content className="mt-1 ml-3 space-y-1">
-                        {mainNavigation[0].children?.map((item) => {
+                        {mainNavigation[0]?.children?.map((item) => {
                           const Icon = getIcon(item.icon || '');
                           return (
                             <Link
                               key={item.title}
-                              href={item.href}
+                              href={item.href as '/'}
                               className={cn(
                                 'flex items-start gap-3 rounded-lg px-3 py-2.5 text-sm',
                                 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',
@@ -253,7 +253,7 @@ export function Navbar() {
                     {mainNavigation.slice(1).map((item) => (
                       <Link
                         key={item.title}
-                        href={item.href}
+                        href={item.href as '/'}
                         className={cn(
                           'block rounded-lg px-3 py-2.5 text-sm font-medium',
                           'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',

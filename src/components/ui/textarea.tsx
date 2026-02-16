@@ -4,10 +4,10 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label?: string;
-  helperText?: string;
-  error?: string;
-  showCount?: boolean;
+  label?: string | undefined;
+  helperText?: string | undefined;
+  error?: string | undefined;
+  showCount?: boolean | undefined;
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(

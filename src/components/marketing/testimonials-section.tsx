@@ -149,18 +149,18 @@ export function TestimonialsSection() {
                   aria-hidden="true"
                 />
                 <p className="mb-8 text-xl leading-relaxed text-slate-700 dark:text-slate-300">
-                  "{testimonials[currentIndex].content}"
+                  &ldquo;{testimonials[currentIndex]?.content}&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-violet-500 text-sm font-semibold text-white">
-                    {testimonials[currentIndex].initials}
+                    {testimonials[currentIndex]?.initials}
                   </div>
                   <div>
                     <div className="font-semibold text-slate-900 dark:text-white">
-                      {testimonials[currentIndex].name}
+                      {testimonials[currentIndex]?.name}
                     </div>
                     <div className="text-sm text-slate-500 dark:text-slate-400">
-                      {testimonials[currentIndex].role} at {testimonials[currentIndex].company}
+                      {testimonials[currentIndex]?.role} at {testimonials[currentIndex]?.company}
                     </div>
                   </div>
                 </div>

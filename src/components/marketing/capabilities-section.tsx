@@ -54,7 +54,7 @@ function CapabilityCard({ icon: Icon, title, description, href, index }: Capabil
       </p>
 
       <Link
-        href={href}
+        href={href as '/'}
         className="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 mt-6 inline-flex items-center text-sm font-medium transition-colors"
       >
         Learn more

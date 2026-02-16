@@ -66,12 +66,15 @@ function ParticleField({ count = 250 }: { count?: number }) {
 
   useFrame(() => {
     if (!pointsRef.current) return;
-    const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
+    const posAttr = pointsRef.current.geometry.attributes.position;
+    if (!posAttr) return;
+    const positions = posAttr.array as Float32Array;
     for (let i = 0; i < count; i++) {
-      positions[i * 3 + 1] += 0.002; // drift upward
-      if (positions[i * 3 + 1] > 10) positions[i * 3 + 1] = -10; // reset to bottom
+      const yIdx = i * 3 + 1;
+      positions[yIdx] = (positions[yIdx] ?? 0) + 0.002; // drift upward
+      if ((positions[yIdx] ?? 0) > 10) positions[yIdx] = -10; // reset to bottom
     }
-    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    posAttr.needsUpdate = true;
   });
 
   return (
@@ -79,11 +82,18 @@ function ParticleField({ count = 250 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
+          args={[positions, 3]}
           count={count}
           array={positions}
           itemSize={3}
         />
-        <bufferAttribute attach="attributes-size" count={count} array={sizes} itemSize={1} />
+        <bufferAttribute
+          attach="attributes-size"
+          args={[sizes, 1]}
+          count={count}
+          array={sizes}
+          itemSize={1}
+        />
       </bufferGeometry>
       <pointsMaterial
         size={0.04}

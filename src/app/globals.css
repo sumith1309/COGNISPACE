@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@config '../../tailwind.config.ts';
 
 @layer base {
   :root {
@@ -96,5 +95,68 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Pricing calculator slider */
+  .pricing-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: white;
+    border: 2px solid #3b82f6;
+    box-shadow:
+      0 1px 3px 0 rgb(0 0 0 / 0.1),
+      0 1px 2px -1px rgb(0 0 0 / 0.1);
+    cursor: pointer;
+    transition:
+      transform 150ms,
+      box-shadow 150ms;
+  }
+
+  .pricing-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  .pricing-slider::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  .pricing-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: white;
+    border: 2px solid #3b82f6;
+    box-shadow:
+      0 1px 3px 0 rgb(0 0 0 / 0.1),
+      0 1px 2px -1px rgb(0 0 0 / 0.1);
+    cursor: pointer;
+    transition:
+      transform 150ms,
+      box-shadow 150ms;
+  }
+
+  .pricing-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .pricing-slider::-moz-range-track {
+    background: transparent;
+    border: none;
+    height: 8px;
+  }
+
+  .pricing-slider::-webkit-slider-runnable-track {
+    background: transparent;
+    border: none;
+    height: 8px;
   }
 }
