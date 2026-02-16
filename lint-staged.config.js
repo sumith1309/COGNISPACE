@@ -1,9 +1,6 @@
 module.exports = {
-  // TypeScript and JavaScript files: lint then format
-  '*.{ts,tsx}': [
-    'bash -c "ESLINT_USE_FLAT_CONFIG=false eslint --fix --max-warnings=0 $0"',
-    'prettier --write',
-  ],
+  // TypeScript and JavaScript files: format only (Next.js handles linting separately)
+  '*.{ts,tsx}': ['prettier --write'],
 
   // Style files: format only
   '*.{css,scss}': ['prettier --write'],
