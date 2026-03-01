@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shield, Zap, Activity, Users } from 'lucide-react';
+import { Briefcase, Building2, Wrench, Award } from 'lucide-react';
 import { useAnimatedCounter } from '@/hooks/use-animated-counter';
 import { cn } from '@/lib/utils';
 
@@ -43,30 +43,27 @@ function MetricItem({
 export function MetricsBar() {
   const metrics: MetricItemProps[] = [
     {
-      icon: Shield,
-      value: 99.9,
-      label: 'Uptime SLA',
-      suffix: '%',
-      decimals: 1,
+      icon: Briefcase,
+      value: 60,
+      label: 'AI Projects Delivered',
+      suffix: '+',
     },
     {
-      icon: Zap,
+      icon: Building2,
+      value: 9,
+      label: 'Industries Served',
+    },
+    {
+      icon: Wrench,
+      value: 25,
+      label: 'Technologies Mastered',
+      suffix: '+',
+    },
+    {
+      icon: Award,
       value: 100,
-      label: 'p95 Latency',
-      prefix: '< ',
-      suffix: 'ms',
-    },
-    {
-      icon: Activity,
-      value: 10000000,
-      label: 'API Calls / Month',
-      suffix: '+',
-    },
-    {
-      icon: Users,
-      value: 500,
-      label: 'Teams Worldwide',
-      suffix: '+',
+      label: 'Client Satisfaction',
+      suffix: '%',
     },
   ];
 

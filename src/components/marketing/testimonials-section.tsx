@@ -22,7 +22,7 @@ const testimonials: Testimonial[] = [
     role: 'CTO',
     company: 'DataFlow',
     content:
-      'Cognispace cut our AI integration time from weeks to hours. The SDK is incredibly well-designed, and the performance has exceeded our expectations.',
+      'Cognispace took our vague idea about using AI for document processing and turned it into a production system in 6 weeks. Their team understood our domain deeply and delivered beyond expectations.',
     initials: 'SC',
   },
   {
@@ -31,7 +31,7 @@ const testimonials: Testimonial[] = [
     role: 'Lead Engineer',
     company: 'NeuralEdge',
     content:
-      'The playground alone is worth it. Being able to test models before committing to an integration saved us thousands in development costs.',
+      'What impressed us most was their ability to evaluate multiple ML approaches and pick the one that actually worked at scale. No hype, just rigorous engineering with real results.',
     initials: 'MR',
   },
   {
@@ -40,16 +40,16 @@ const testimonials: Testimonial[] = [
     role: 'VP Engineering',
     company: 'ScaleAI',
     content:
-      'We switched from building our own inference pipeline to Cognispace and never looked back. 99.9% uptime is real, and the support team is exceptional.',
+      'We needed an AI recommendation engine that could handle millions of users. Cognispace built it, deployed it, and it has been running flawlessly for over a year with sub-10ms latency.',
     initials: 'PS',
   },
   {
     id: '4',
     name: 'James Kim',
-    role: 'Full-Stack Developer',
+    role: 'Product Manager',
     company: 'CloudMind',
     content:
-      "The developer documentation is some of the best I've seen. Clear, comprehensive, and always up to date. Integration was seamless.",
+      'They did not just build what we asked for — they challenged our assumptions, proposed a better architecture, and delivered a system that was simpler and more performant than we imagined.',
     initials: 'JK',
   },
   {
@@ -58,7 +58,7 @@ const testimonials: Testimonial[] = [
     role: 'Head of AI',
     company: 'TechCorp',
     content:
-      'Enterprise support has been exceptional. They genuinely care about our success and have helped us optimize our usage for significant cost savings.',
+      'From LMS platforms to AI-powered assessments, Cognispace has been our go-to partner for anything at the intersection of education and machine intelligence. Consistently excellent work.',
     initials: 'EV',
   },
 ];
@@ -124,10 +124,10 @@ export function TestimonialsSection() {
           className="mb-16 text-center"
         >
           <span className="text-brand-500 inline-block rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] uppercase dark:bg-blue-950">
-            What Teams Are Saying
+            What Clients Say
           </span>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-            Loved by developers and teams worldwide
+            Trusted by teams building with AI
           </h2>
         </motion.div>
 

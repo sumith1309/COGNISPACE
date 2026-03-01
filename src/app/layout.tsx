@@ -20,7 +20,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} — Intelligent Products, Real Outcomes`,
+    default: `${siteConfig.name} — AI Technology Studio`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,

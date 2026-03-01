@@ -41,7 +41,7 @@ export function Footer() {
             Stay in the loop
           </h3>
           <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-            Get the latest on AI products, engineering insights, and company news.
+            AI insights, case studies, and studio updates delivered to your inbox.
           </p>
 
           <AnimatePresence mode="wait">
@@ -84,13 +84,13 @@ export function Footer() {
 
         {/* Link Grid */}
         <div className="mb-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Product */}
+          {/* Services */}
           <div>
             <h4 className="mb-4 text-sm font-semibold tracking-wider text-slate-900 uppercase dark:text-white">
-              Product
+              Services
             </h4>
             <ul className="space-y-3">
-              {footerNavigation.product.map((link) => (
+              {footerNavigation.services.map((link) => (
                 <li key={link.title}>
                   <Link
                     href={link.href as any}
@@ -122,13 +122,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Industries */}
           <div>
             <h4 className="mb-4 text-sm font-semibold tracking-wider text-slate-900 uppercase dark:text-white">
-              Resources
+              Industries
             </h4>
             <ul className="space-y-3">
-              {footerNavigation.resources.map((link) => (
+              {footerNavigation.industries.map((link) => (
                 <li key={link.title}>
                   <Link
                     href={link.href as any}

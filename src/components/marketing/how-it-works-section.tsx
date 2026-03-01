@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Plug, Wand2, TrendingUp } from 'lucide-react';
+import { Search, Wand2, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -99,24 +99,24 @@ export function HowItWorksSection() {
   const steps: Omit<StepProps, 'index'>[] = [
     {
       number: '01',
-      icon: Plug,
-      title: 'Connect',
+      icon: Search,
+      title: 'Discover',
       description:
-        "Install our SDK, add your API key, and you're ready to go. Works with any framework, any language.",
+        'We immerse ourselves in your domain, analyze your data landscape, and scope the AI opportunity — identifying where machine intelligence creates the highest leverage.',
     },
     {
       number: '02',
       icon: Wand2,
       title: 'Build',
       description:
-        'Access our model catalog, prototype in the playground, and integrate inference into your product with type-safe APIs.',
+        'Our engineers design, prototype, and iterate on the solution — using the right models, the right architecture, and rigorous evaluation against your success criteria.',
     },
     {
       number: '03',
-      icon: TrendingUp,
-      title: 'Scale',
+      icon: Rocket,
+      title: 'Deploy & Evolve',
       description:
-        'Monitor performance in real-time, optimize costs with usage analytics, and scale automatically to meet demand.',
+        'We ship production-grade systems with monitoring, feedback loops, and continuous improvement baked in — so your AI gets smarter over time, not stale.',
     },
   ];
 
@@ -131,10 +131,10 @@ export function HowItWorksSection() {
           className="text-center"
         >
           <span className="text-brand-500 inline-block rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] uppercase dark:bg-blue-950">
-            How It Works
+            Our Process
           </span>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-            From idea to production in three steps
+            From problem to production in three phases
           </h2>
         </motion.div>
 

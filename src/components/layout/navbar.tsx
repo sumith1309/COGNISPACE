@@ -77,7 +77,7 @@ export function Navbar() {
                       'data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800'
                     )}
                   >
-                    Products
+                    Services
                     <ChevronDown
                       className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180"
                       aria-hidden="true"
@@ -158,11 +158,11 @@ export function Navbar() {
             <div className="flex items-center gap-2">
               <ThemeToggle />
               <Button variant="ghost" size="sm" asChild className="hidden lg:inline-flex">
-                <Link href="/auth/signin">Sign In</Link>
+                <Link href="/work">Our Work</Link>
               </Button>
               <Button size="sm" asChild className="hidden lg:inline-flex">
-                <Link href="/auth/signup">
-                  Get Started
+                <Link href="/contact">
+                  Let&apos;s Talk
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -216,7 +216,7 @@ export function Navbar() {
                           'transition-colors'
                         )}
                       >
-                        Products
+                        Services
                         <ChevronDown className="h-4 w-4" />
                       </Collapsible.Trigger>
                       <Collapsible.Content className="mt-1 ml-3 space-y-1">
@@ -269,11 +269,11 @@ export function Navbar() {
                   {/* Mobile Actions */}
                   <div className="space-y-2 border-t border-slate-200 p-4 dark:border-slate-800">
                     <Button variant="ghost" className="w-full justify-center" asChild>
-                      <Link href="/auth/signin">Sign In</Link>
+                      <Link href="/work">View Our Work</Link>
                     </Button>
                     <Button className="w-full justify-center" asChild>
-                      <Link href="/auth/signup">
-                        Get Started
+                      <Link href="/contact">
+                        Let&apos;s Talk
                         <ArrowRight className="h-4 w-4" />
                       </Link>
                     </Button>

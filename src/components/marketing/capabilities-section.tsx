@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Brain, Server, LineChart, ArrowRight } from 'lucide-react';
+import { TrendingUp, GraduationCap, ShoppingCart, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CapabilityCardProps {
@@ -57,7 +57,7 @@ function CapabilityCard({ icon: Icon, title, description, href, index }: Capabil
         href={href as '/'}
         className="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 mt-6 inline-flex items-center text-sm font-medium transition-colors"
       >
-        Learn more
+        View projects
         <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
       </Link>
     </motion.div>
@@ -67,25 +67,25 @@ function CapabilityCard({ icon: Icon, title, description, href, index }: Capabil
 export function CapabilitiesSection() {
   const capabilities: Omit<CapabilityCardProps, 'index'>[] = [
     {
-      icon: Brain,
-      title: 'AI-Native Development',
+      icon: TrendingUp,
+      title: 'Finance & Investments',
       description:
-        'Build applications powered by state-of-the-art AI models. Our playground lets you prototype in minutes, and our SDKs take you to production in hours.',
-      href: '/products/playground',
+        'Investment research advisors, loan origination with deep learning, dynamic pricing engines, and intelligent document processing — 5 production systems deployed.',
+      href: '/work?category=finance',
     },
     {
-      icon: Server,
-      title: 'Production Infrastructure',
+      icon: GraduationCap,
+      title: 'Education & EdTech',
       description:
-        'Enterprise-grade infrastructure that scales automatically. 99.9% uptime SLA, global edge deployment, and real-time monitoring built in.',
-      href: '/products/infrastructure',
+        'AI mock interview platforms with real-time video analytics, curriculum generators, assessment engines, and 3 full LMS platforms with live classes and AI chat.',
+      href: '/work?category=education',
     },
     {
-      icon: LineChart,
-      title: 'Continuous Intelligence',
+      icon: ShoppingCart,
+      title: 'Retail & E-Commerce',
       description:
-        'Monitor model performance, track usage patterns, and optimize costs with our comprehensive analytics dashboard.',
-      href: '/products/analytics',
+        'Two-tower neural net recommendation engines, 7-service microarchitectures with visual search, and context-aware recommenders with synthetic data augmentation.',
+      href: '/work?category=retail',
     },
   ];
 
@@ -100,13 +100,14 @@ export function CapabilitiesSection() {
           className="text-center"
         >
           <span className="text-brand-500 inline-block rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] uppercase dark:bg-blue-950">
-            Capabilities
+            Industry Expertise
           </span>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-            Everything you need to build with AI
+            Deep domain expertise across critical industries
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-500 dark:text-slate-400">
-            From model selection to production deployment, Cognispace provides the complete toolkit.
+            Every solution is built with domain-specific knowledge, production-grade engineering,
+            and measurable outcomes.
           </p>
         </motion.div>
 

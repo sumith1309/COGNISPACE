@@ -10,64 +10,39 @@ export interface NavItem {
 
 export const mainNavigation: NavItem[] = [
   {
-    title: 'Products',
-    href: '/products',
+    title: 'Services',
+    href: '/services',
     children: [
       {
-        title: 'AI Playground',
-        href: '/dashboard/playground',
-        description: 'Test and explore AI models interactively',
-        icon: 'Sparkles',
+        title: 'AI Strategy & Discovery',
+        href: '/services#strategy',
+        description: 'Problem scoping, feasibility analysis, and AI roadmapping',
+        icon: 'Lightbulb',
       },
       {
-        title: 'Model Catalog',
-        href: '/dashboard/models',
-        description: 'Browse available AI models and services',
-        icon: 'Layers',
-      },
-      {
-        title: 'API Platform',
-        href: '/docs',
-        description: 'Comprehensive API documentation and SDKs',
+        title: 'Custom AI Development',
+        href: '/services#development',
+        description: 'End-to-end design, build, and deploy of AI solutions',
         icon: 'Code',
       },
       {
-        title: 'Enterprise',
-        href: '/enterprise',
-        description: 'Custom solutions for large organizations',
-        icon: 'Building2',
+        title: 'MLOps & Infrastructure',
+        href: '/services#mlops',
+        description: 'Production pipelines, monitoring, and scaling',
+        icon: 'Server',
+      },
+      {
+        title: 'AI Audits & Ethics',
+        href: '/services#audits',
+        description: 'Bias analysis, explainability, and governance compliance',
+        icon: 'Shield',
       },
     ],
   },
-  {
-    title: 'Solutions',
-    href: '/solutions',
-    children: [
-      {
-        title: 'Healthcare',
-        href: '/solutions#healthcare',
-        description: 'AI for medical data analysis and diagnostics',
-      },
-      {
-        title: 'Finance',
-        href: '/solutions#finance',
-        description: 'Intelligent risk assessment and automation',
-      },
-      {
-        title: 'E-commerce',
-        href: '/solutions#ecommerce',
-        description: 'Personalization and recommendation engines',
-      },
-      {
-        title: 'Legal',
-        href: '/solutions#legal',
-        description: 'Document analysis and contract intelligence',
-      },
-    ],
-  },
-  { title: 'Pricing', href: '/pricing' },
-  { title: 'Docs', href: '/docs' },
+  { title: 'Work', href: '/work' },
+  { title: 'About', href: '/about' },
   { title: 'Blog', href: '/blog' },
+  { title: 'Contact', href: '/contact' },
 ];
 
 export const dashboardNavigation: NavItem[] = [
@@ -82,32 +57,27 @@ export const dashboardNavigation: NavItem[] = [
 ];
 
 export const footerNavigation = {
-  product: [
-    { title: 'AI Playground', href: '/dashboard/playground' },
-    { title: 'Model Catalog', href: '/dashboard/models' },
-    { title: 'API Platform', href: '/docs' },
-    { title: 'SDKs', href: '/docs/sdks' },
-    { title: 'Status', href: '/status' },
+  services: [
+    { title: 'AI Strategy', href: '/services#strategy' },
+    { title: 'Custom Development', href: '/services#development' },
+    { title: 'MLOps & Infra', href: '/services#mlops' },
+    { title: 'AI Audits', href: '/services#audits' },
   ],
   company: [
     { title: 'About', href: '/about' },
-    { title: 'Careers', href: '/careers' },
     { title: 'Blog', href: '/blog' },
-    { title: 'Press', href: '/press' },
-    { title: 'Partners', href: '/partners' },
+    { title: 'Careers', href: '/careers' },
+    { title: 'Contact', href: '/contact' },
   ],
-  resources: [
-    { title: 'Documentation', href: '/docs' },
-    { title: 'Tutorials', href: '/docs/tutorials' },
-    { title: 'API Reference', href: '/docs/api' },
-    { title: 'Community', href: '/community' },
-    { title: 'Changelog', href: '/changelog' },
+  industries: [
+    { title: 'Finance', href: '/work?category=finance' },
+    { title: 'Healthcare', href: '/work?category=healthcare' },
+    { title: 'Education', href: '/work?category=education' },
+    { title: 'Retail', href: '/work?category=retail' },
   ],
   legal: [
     { title: 'Privacy Policy', href: '/privacy' },
     { title: 'Terms of Service', href: '/terms' },
     { title: 'Cookie Policy', href: '/cookies' },
-    { title: 'Security', href: '/security' },
-    { title: 'DPA', href: '/dpa' },
   ],
 } as const;

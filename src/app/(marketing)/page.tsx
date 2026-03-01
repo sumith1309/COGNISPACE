@@ -10,28 +10,28 @@ import { CTABannerSection } from '@/components/marketing/cta-banner-section';
 export default function HomePage() {
   return (
     <>
-      {/* 1. Hero Section - 100vh with 3D scene */}
+      {/* 1. Hero — Studio positioning with 3D scene */}
       <HeroSection />
 
-      {/* 2. Social Proof Marquee */}
+      {/* 2. Tech Stack Marquee */}
       <SocialProofMarquee />
 
-      {/* 3. Core Capabilities - 3 feature cards */}
+      {/* 3. Industry Expertise — 3 vertical cards */}
       <CapabilitiesSection />
 
-      {/* 4. Interactive Code Demo */}
+      {/* 4. Featured Project Deep Dive */}
       <CodeDemoSection />
 
-      {/* 5. Metrics Bar - 4 animated counters */}
+      {/* 5. Impact Metrics — 4 animated counters */}
       <MetricsBar />
 
-      {/* 6. How It Works - 3-step process */}
+      {/* 6. Our Process — 3-step Discover/Build/Deploy */}
       <HowItWorksSection />
 
-      {/* 7. Testimonials Carousel */}
+      {/* 7. Client Testimonials */}
       <TestimonialsSection />
 
-      {/* 8. Final CTA Banner */}
+      {/* 8. Contact CTA Banner */}
       <CTABannerSection />
     </>
   );

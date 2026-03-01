@@ -6,80 +6,56 @@ import { Check } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useTypewriter } from '@/hooks/use-typewriter';
+import { Badge } from '@/components/ui/badge';
 
-type CodeLanguage = 'Python' | 'JavaScript' | 'cURL';
+type ProjectTab = 'Architecture' | 'Tech Stack' | 'Outcomes';
 
-const codeExamples: Record<CodeLanguage, string> = {
-  Python: `import cognispace
+const architectureSteps = [
+  { label: 'User Query', color: 'bg-blue-500' },
+  { label: 'LangGraph Orchestrator', color: 'bg-violet-500' },
+  { label: 'Research Agents', color: 'bg-emerald-500' },
+  { label: 'Claude API Analysis', color: 'bg-blue-500' },
+  { label: 'SHAP Explainability', color: 'bg-amber-500' },
+  { label: 'Investment Brief', color: 'bg-emerald-500' },
+];
 
-client = cognispace.Client(api_key="cog_live_...")
+const techStack = [
+  'LangGraph',
+  'Claude API',
+  'SHAP',
+  'Python',
+  'FastAPI',
+  'PostgreSQL',
+  'Redis',
+  'Docker',
+];
 
-response = client.inference.create(
-    model="cogni-4-turbo",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Explain quantum computing simply."}
-    ],
-    stream=True
-)
-
-for chunk in response:
-    print(chunk.content, end="")`,
-  JavaScript: `import Cognispace from '@cognispace/sdk';
-
-const client = new Cognispace({ apiKey: 'cog_live_...' });
-
-const stream = await client.inference.create({
-  model: 'cogni-4-turbo',
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'Explain quantum computing simply.' }
-  ],
-  stream: true
-});
-
-for await (const chunk of stream) {
-  process.stdout.write(chunk.content);
-}`,
-  cURL: `curl https://api.cognispace.com/v1/inference \\
-  -H "Authorization: Bearer cog_live_..." \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "model": "cogni-4-turbo",
-    "messages": [
-      {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": "Explain quantum computing simply."}
-    ],
-    "stream": true
-  }'`,
-};
-
-const responseText = `Quantum computing uses quantum bits (qubits) instead of classical bits. While a classical bit is either 0 or 1, a qubit can be both simultaneously — a property called superposition. This allows quantum computers to process vast amounts of possibilities at once, making them incredibly powerful for specific types of problems like cryptography, drug discovery, and optimization...`;
+const outcomeText =
+  'The system autonomously researches stocks, evaluates risk factors, and generates comprehensive investment briefs — with full transparency into its reasoning via SHAP visualizations. Multi-agent orchestration enables parallel research across market data, financial filings, and news sentiment.';
 
 export function CodeDemoSection() {
-  const [activeTab, setActiveTab] = useState<CodeLanguage>('Python');
+  const [activeTab, setActiveTab] = useState<ProjectTab>('Architecture');
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-200px' });
 
   const { displayedText, start } = useTypewriter({
-    text: responseText,
+    text: outcomeText,
     speed: 20,
     startOnMount: false,
   });
 
   useEffect(() => {
-    if (isInView) {
-      // Start typewriter when section comes into view
-      const timeout = setTimeout(() => start(), 800);
+    if (isInView && activeTab === 'Outcomes') {
+      const timeout = setTimeout(() => start(), 400);
       return () => clearTimeout(timeout);
     }
     return undefined;
-  }, [isInView, start]);
+  }, [isInView, activeTab, start]);
 
   const features = [
-    'Type-safe SDKs for Python, JavaScript, and Go',
-    'Streaming responses with Server-Sent Events',
-    'Built-in retry logic and error handling',
+    'Multi-agent orchestration via LangGraph',
+    'Claude API for deep research analysis',
+    'Explainable outputs with SHAP visualization',
   ];
 
   return (
@@ -95,14 +71,15 @@ export function CodeDemoSection() {
             className="flex flex-col justify-center"
           >
             <span className="text-brand-500 inline-block w-fit rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] uppercase dark:bg-blue-950">
-              Developer Experience
+              Featured Project
             </span>
             <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 lg:text-4xl dark:text-white">
-              Ship your first AI feature in under 5 minutes
+              AI Investment Research Advisor
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-slate-500 dark:text-slate-400">
-              Our SDKs are designed with developer experience in mind. Get started instantly with
-              minimal configuration, type-safe APIs, and comprehensive error handling.
+              An agentic research platform that autonomously investigates stocks, evaluates risk,
+              and generates investment briefs with full explainability — built for a financial
+              services firm.
             </p>
 
             <ul className="mt-8 space-y-4">
@@ -122,14 +99,14 @@ export function CodeDemoSection() {
             </ul>
 
             <Link
-              href={'/docs' as '/'}
+              href={'/work' as '/'}
               className="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 mt-8 inline-flex w-fit items-center text-sm font-medium transition-colors"
             >
-              Read the docs →
+              View all projects →
             </Link>
           </motion.div>
 
-          {/* Right: Code Editor Mockup */}
+          {/* Right: Project Deep Dive Card */}
           <motion.div
             ref={ref}
             initial={{ opacity: 0, x: 30 }}
@@ -137,7 +114,7 @@ export function CodeDemoSection() {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            {/* Code Window */}
+            {/* Project Window */}
             <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-950">
               {/* Window Header */}
               <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
@@ -147,47 +124,75 @@ export function CodeDemoSection() {
                   <div className="h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700" />
                 </div>
                 <div className="ml-2 flex gap-2">
-                  {(['Python', 'JavaScript', 'cURL'] as CodeLanguage[]).map((lang) => (
+                  {(['Architecture', 'Tech Stack', 'Outcomes'] as ProjectTab[]).map((tab) => (
                     <button
-                      key={lang}
-                      onClick={() => setActiveTab(lang)}
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
                       className={cn(
                         'rounded px-3 py-1 text-xs font-medium transition-colors',
-                        activeTab === lang
+                        activeTab === tab
                           ? 'bg-white text-slate-900 dark:bg-slate-950 dark:text-white'
                           : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
                       )}
                     >
-                      {lang}
+                      {tab}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Code Content */}
-              <div className="p-4">
-                <pre className="overflow-x-auto text-sm">
-                  <code className="text-slate-800 dark:text-slate-200">
-                    {codeExamples[activeTab]}
-                  </code>
-                </pre>
-              </div>
-            </div>
-
-            {/* Response Panel */}
-            <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
-              <div className="mb-2 flex items-center gap-2">
-                <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                  Response
-                </span>
-              </div>
-              <p className="font-mono text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-                {displayedText}
-                {displayedText && displayedText.length < responseText.length && (
-                  <span className="bg-brand-500 inline-block h-4 w-1.5 animate-pulse" />
+              {/* Tab Content */}
+              <div className="p-6">
+                {activeTab === 'Architecture' && (
+                  <div className="space-y-3">
+                    {architectureSteps.map((step, i) => (
+                      <div key={step.label} className="flex items-center gap-3">
+                        <div
+                          className={cn(
+                            'flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white',
+                            step.color
+                          )}
+                        >
+                          {i + 1}
+                        </div>
+                        <div className="flex-1 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                          {step.label}
+                        </div>
+                        {i < architectureSteps.length - 1 && (
+                          <div className="absolute ml-4 hidden text-slate-300 dark:text-slate-600" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </p>
+
+                {activeTab === 'Tech Stack' && (
+                  <div className="flex flex-wrap gap-2">
+                    {techStack.map((tech) => (
+                      <Badge key={tech} variant="outline" className="px-3 py-1.5 text-sm">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+
+                {activeTab === 'Outcomes' && (
+                  <div>
+                    <div className="mb-3 flex items-center gap-2">
+                      <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Project Outcomes
+                      </span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                      {displayedText}
+                      {displayedText && displayedText.length < outcomeText.length && (
+                        <span className="bg-brand-500 inline-block h-4 w-1.5 animate-pulse" />
+                      )}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         </div>

@@ -3,26 +3,38 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-const companies = [
-  'TechCorp',
-  'DataFlow',
-  'NeuralEdge',
-  'CloudMind',
-  'ScaleAI',
-  'DeepLogic',
-  'VisionAI',
-  'SynthLabs',
-  'QuantumByte',
-  'IntelliCore',
-  'NexusML',
-  'CoreData',
+const technologies = [
+  'LangGraph',
+  'Claude API',
+  'GPT-4',
+  'SHAP',
+  'TensorFlow',
+  'PyTorch',
+  'ONNX',
+  'Triton',
+  'FastAPI',
+  'Django',
+  'Next.js',
+  'React',
+  'OpenCV',
+  'YOLOv5',
+  'Whisper',
+  'DistilBERT',
+  'CTGAN',
+  'MediaPipe',
+  'HeyGen',
+  'Deepgram',
+  'dlib',
+  'Docker',
+  'Kubernetes',
+  'AWS',
 ];
 
-interface CompanyLogoProps {
+interface TechBadgeProps {
   name: string;
 }
 
-function CompanyLogo({ name }: CompanyLogoProps) {
+function TechBadge({ name }: TechBadgeProps) {
   return (
     <div className="flex shrink-0 items-center justify-center px-8">
       <span className="text-2xl font-semibold whitespace-nowrap text-slate-200 dark:text-slate-700">
@@ -37,7 +49,7 @@ export function SocialProofMarquee() {
     <section className="border-y border-slate-100 bg-white py-12 dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-8 text-center">
         <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">
-          Trusted by Industry Leaders
+          Our Technology Arsenal
         </p>
       </div>
 
@@ -45,8 +57,8 @@ export function SocialProofMarquee() {
         {/* Top Row - Scroll Left */}
         <div className="mb-8 flex">
           <div className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]">
-            {companies.map((company, i) => (
-              <CompanyLogo key={`top-1-${i}`} name={company} />
+            {technologies.map((company, i) => (
+              <TechBadge key={`top-1-${i}`} name={company} />
             ))}
           </div>
           {/* Duplicate for seamless loop */}
@@ -54,8 +66,8 @@ export function SocialProofMarquee() {
             className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]"
             aria-hidden="true"
           >
-            {companies.map((company, i) => (
-              <CompanyLogo key={`top-2-${i}`} name={company} />
+            {technologies.map((company, i) => (
+              <TechBadge key={`top-2-${i}`} name={company} />
             ))}
           </div>
         </div>
@@ -63,11 +75,11 @@ export function SocialProofMarquee() {
         {/* Bottom Row - Scroll Right */}
         <div className="flex">
           <div className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]">
-            {companies
+            {technologies
               .slice()
               .reverse()
               .map((company, i) => (
-                <CompanyLogo key={`bottom-1-${i}`} name={company} />
+                <TechBadge key={`bottom-1-${i}`} name={company} />
               ))}
           </div>
           {/* Duplicate for seamless loop */}
@@ -75,11 +87,11 @@ export function SocialProofMarquee() {
             className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]"
             aria-hidden="true"
           >
-            {companies
+            {technologies
               .slice()
               .reverse()
               .map((company, i) => (
-                <CompanyLogo key={`bottom-2-${i}`} name={company} />
+                <TechBadge key={`bottom-2-${i}`} name={company} />
               ))}
           </div>
         </div>
