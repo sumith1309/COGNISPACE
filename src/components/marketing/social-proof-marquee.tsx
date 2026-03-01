@@ -47,14 +47,14 @@ export function SocialProofMarquee() {
 
       <div className="relative overflow-hidden">
         {/* Top Row - Capabilities */}
-        <div className="mb-8 flex">
-          <div className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]">
+        <div className="group/marquee1 mb-8 flex">
+          <div className="animate-marquee flex shrink-0 group-hover/marquee1:[animation-play-state:paused]">
             {capabilitiesRow.map((item, i) => (
               <MarqueeItem key={`top-1-${i}`} text={item} />
             ))}
           </div>
           <div
-            className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]"
+            className="animate-marquee flex shrink-0 group-hover/marquee1:[animation-play-state:paused]"
             aria-hidden="true"
           >
             {capabilitiesRow.map((item, i) => (
@@ -64,14 +64,14 @@ export function SocialProofMarquee() {
         </div>
 
         {/* Bottom Row - Industries */}
-        <div className="flex">
-          <div className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]">
+        <div className="group/marquee2 flex">
+          <div className="animate-marquee-reverse flex shrink-0 group-hover/marquee2:[animation-play-state:paused]">
             {industriesRow.map((item, i) => (
               <MarqueeItem key={`bottom-1-${i}`} text={item} />
             ))}
           </div>
           <div
-            className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]"
+            className="animate-marquee-reverse flex shrink-0 group-hover/marquee2:[animation-play-state:paused]"
             aria-hidden="true"
           >
             {industriesRow.map((item, i) => (
