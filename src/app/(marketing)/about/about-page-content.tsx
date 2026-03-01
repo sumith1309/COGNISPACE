@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Brain, Diamond, Handshake, Rocket, Linkedin, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
 /* -------------------------------------------------------------------------- */
@@ -36,6 +37,8 @@ interface Founder {
   name: string;
   title: string;
   initials: string;
+  image: string;
+  imagePosition?: string;
   bio: string;
   gradientFrom: string;
   gradientTo: string;
@@ -47,28 +50,32 @@ const founders: Founder[] = [
     name: 'Vidit K Bhatnagar',
     title: 'Co-Founder & CEO',
     initials: 'VB',
+    image: '/founders/vidit.png',
     bio: 'Vidit leads the company\u2019s vision and strategy. With deep expertise in AI systems and product development, he ensures every product Cognispace builds delivers real business value. He\u2019s passionate about making AI accessible to every industry.',
     gradientFrom: 'from-blue-500',
     gradientTo: 'to-violet-600',
-    linkedinHref: '#',
+    linkedinHref: 'https://www.linkedin.com/in/vidit-k-bhatnagar-24b107146/',
   },
   {
     name: 'Aditya Tripathi',
     title: 'Co-Founder & CTO',
     initials: 'AT',
+    image: '/founders/aditya-v2.png',
     bio: 'Aditya leads the engineering team and technical architecture. His background in machine learning and scalable systems means every product is built on a foundation of clean code, smart AI, and rock-solid infrastructure.',
     gradientFrom: 'from-violet-500',
     gradientTo: 'to-fuchsia-600',
-    linkedinHref: '#',
+    linkedinHref: 'https://www.linkedin.com/in/aditya-tripathi-7b8365167/',
   },
   {
     name: 'S. Jyothi Swaroop',
     title: 'Co-Founder & CPO',
     initials: 'JS',
+    image: '/founders/jyothi-swaroop-v3.jpeg',
+    imagePosition: 'center 25%',
     bio: 'Jyothi Swaroop leads product design and client relationships. With a keen eye for user experience and a deep understanding of how AI should feel in the hands of real users, he ensures every product is intuitive, beautiful, and impactful.',
     gradientFrom: 'from-emerald-500',
     gradientTo: 'to-teal-600',
-    linkedinHref: '#',
+    linkedinHref: 'https://www.linkedin.com/in/jyothi-swaroop-753116295/',
   },
 ];
 
@@ -117,9 +124,16 @@ function FounderCard({ founder, index }: { founder: Founder; index: number }) {
     >
       {/* Avatar */}
       <div
-        className={`mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br ${founder.gradientFrom} ${founder.gradientTo} shadow-lg`}
+        className={`mx-auto flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br ${founder.gradientFrom} ${founder.gradientTo} shadow-lg`}
       >
-        <span className="text-3xl font-bold text-white">{founder.initials}</span>
+        <Image
+          src={founder.image}
+          alt={founder.name}
+          width={128}
+          height={128}
+          className="h-full w-full object-cover"
+          style={founder.imagePosition ? { objectPosition: founder.imagePosition } : undefined}
+        />
       </div>
 
       <h3 className="mt-6 text-xl font-semibold text-slate-900 dark:text-white">{founder.name}</h3>
