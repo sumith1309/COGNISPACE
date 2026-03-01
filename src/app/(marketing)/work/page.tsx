@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { ProjectShowcase } from '@/components/marketing/project-showcase';
 
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function WorkPage() {
-  return <ProjectShowcase />;
+  return (
+    <Suspense>
+      <ProjectShowcase />
+    </Suspense>
+  );
 }

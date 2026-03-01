@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 interface LogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
+  showWordmark?: boolean;
 }
 
 const sizeMap = {
@@ -16,7 +17,7 @@ const sizeMap = {
   lg: { height: 44, text: 'text-xl' },
 };
 
-export function Logo({ className, size = 'md' }: LogoProps) {
+export function Logo({ className, size = 'md', showWordmark = true }: LogoProps) {
   const { height, text } = sizeMap[size];
 
   return (
@@ -30,14 +31,16 @@ export function Logo({ className, size = 'md' }: LogoProps) {
         style={{ height, width: 'auto' }}
         priority
       />
-      <span
-        className={cn(
-          text,
-          'font-semibold tracking-tight text-slate-900 transition-colors dark:text-white'
-        )}
-      >
-        cognispace
-      </span>
+      {showWordmark && (
+        <span
+          className={cn(
+            text,
+            'font-semibold tracking-tight text-slate-900 transition-colors dark:text-white'
+          )}
+        >
+          cognispace
+        </span>
+      )}
     </Link>
   );
 }
