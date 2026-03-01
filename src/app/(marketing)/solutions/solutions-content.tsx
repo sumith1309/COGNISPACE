@@ -26,16 +26,6 @@ interface ServiceItem {
   };
 }
 
-interface CaseStudy {
-  industry: string;
-  industryColor: string;
-  projectName: string;
-  challenge: string;
-  solution: string;
-  results: string[];
-  techStack: string[];
-}
-
 /* -------------------------------------------------------------------------- */
 /*  Animation helpers                                                         */
 /* -------------------------------------------------------------------------- */
@@ -118,42 +108,6 @@ const services: ServiceItem[] = [
   },
 ];
 
-const caseStudies: CaseStudy[] = [
-  {
-    industry: 'Healthcare',
-    industryColor: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-    projectName: 'AI Customer Support Platform',
-    challenge:
-      'MedTech Solutions was drowning in over 5,000 support tickets daily, with average response times exceeding 48 hours. Patient satisfaction scores had plummeted to an all-time low, threatening key enterprise contracts.',
-    solution:
-      'We built an AI-powered support platform with intelligent ticket routing, automated response generation, and real-time sentiment analysis. The system integrates directly with their existing Zendesk workflow, prioritizing urgent cases and drafting context-aware responses for human review.',
-    results: ['70% faster response', '85% auto-resolution', '45% cost reduction'],
-    techStack: ['Next.js', 'Python', 'OpenAI', 'Redis', 'Zendesk API'],
-  },
-  {
-    industry: 'Legal',
-    industryColor: 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300',
-    projectName: 'Document Intelligence System',
-    challenge:
-      'LegalMind AI discovered their lawyers were spending over 60% of billable time manually reviewing contracts and regulatory documents. The firm was losing competitive edge as clients demanded faster turnaround on complex deals.',
-    solution:
-      'We developed a document intelligence system combining advanced OCR, natural language processing, and custom-trained models for legal document analysis. The platform extracts key clauses, flags risks, compares against precedent libraries, and generates structured summaries in seconds.',
-    results: ['10,000 contracts/month', '99.2% accuracy', '80% time saved'],
-    techStack: ['Python', 'GPT-4', 'OCR', 'MongoDB', 'React'],
-  },
-  {
-    industry: 'Logistics',
-    industryColor: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
-    projectName: 'Predictive Supply Chain Analytics',
-    challenge:
-      "LogiChain was losing millions annually to stockouts and overstocking across their network of 50,000 SKUs and 200 warehouses. Legacy forecasting tools couldn't keep up with demand volatility and seasonal patterns.",
-    solution:
-      'We built a real-time analytics platform with machine learning forecasting models that analyze historical sales data, external market signals, weather patterns, and supply chain constraints. Interactive dashboards give planners actionable visibility across every warehouse and product line.',
-    results: ['$2M annual savings', '35% fewer stockouts', '3x forecast accuracy'],
-    techStack: ['React', 'Python', 'TensorFlow', 'PostgreSQL', 'D3.js'],
-  },
-];
-
 /* -------------------------------------------------------------------------- */
 /*  Sub-components                                                            */
 /* -------------------------------------------------------------------------- */
@@ -208,87 +162,6 @@ function ServiceCard({ service, index }: { service: ServiceItem; index: number }
             {tech}
           </Badge>
         ))}
-      </div>
-    </motion.div>
-  );
-}
-
-function CaseStudyCard({ study, index }: { study: CaseStudy; index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: [...ease] }}
-      className="group flex flex-col rounded-2xl border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
-    >
-      <div className="flex flex-1 flex-col p-8 lg:p-10">
-        {/* Industry tag */}
-        <span
-          className={cn(
-            'inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-medium',
-            study.industryColor
-          )}
-        >
-          {study.industry}
-        </span>
-
-        {/* Project name */}
-        <h3 className="mt-4 text-xl font-semibold text-slate-900 dark:text-white">
-          {study.projectName}
-        </h3>
-
-        {/* Challenge */}
-        <div className="mt-5">
-          <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
-            Challenge
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-            {study.challenge}
-          </p>
-        </div>
-
-        {/* Solution */}
-        <div className="mt-5">
-          <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
-            Solution
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-            {study.solution}
-          </p>
-        </div>
-
-        {/* Results */}
-        <div className="mt-6 flex flex-wrap gap-2">
-          {study.results.map((result) => (
-            <span
-              key={result}
-              className="inline-flex items-center rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-            >
-              {result}
-            </span>
-          ))}
-        </div>
-
-        {/* Tech stack */}
-        <div className="mt-6 flex flex-wrap gap-2 border-t border-slate-100 pt-6 dark:border-slate-800">
-          {study.techStack.map((tech) => (
-            <Badge key={tech} variant="outline" className="text-xs">
-              {tech}
-            </Badge>
-          ))}
-        </div>
-
-        {/* CTA link */}
-        <div className="mt-auto pt-6">
-          <Link
-            href={'/contact' as '/'}
-            className="text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center text-sm font-medium transition-colors"
-          >
-            Read full case study
-            <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
       </div>
     </motion.div>
   );
@@ -366,36 +239,6 @@ export function SolutionsPageContent() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/*  Case Studies Section                                               */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="bg-[#F8FAFF] py-24 lg:py-32 dark:bg-slate-950">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, ease: [...ease] }}
-            className="text-center"
-          >
-            <span className={sectionBadgeClasses}>Case Studies</span>
-            <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-              Real results for real businesses
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-500 dark:text-slate-400">
-              See how we&apos;ve helped companies across industries transform their operations with
-              custom AI solutions.
-            </p>
-          </motion.div>
-
-          <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-10">
-            {caseStudies.map((study, index) => (
-              <CaseStudyCard key={study.projectName} study={study} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------ */}
       {/*  Industries Section (reused component)                              */}
       {/* ------------------------------------------------------------------ */}
       <IndustriesSection />
@@ -420,21 +263,14 @@ export function SolutionsPageContent() {
               can help you move faster and smarter.
             </p>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-10">
               <Button asChild size="lg" className="group">
                 <Link href="/contact">
-                  Start a Project
+                  Let&apos;s Talk
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/contact">Schedule a Call</Link>
-              </Button>
             </div>
-
-            <p className="mt-6 text-sm text-slate-400 dark:text-slate-500">
-              Free initial consultation. No commitment required.
-            </p>
           </motion.div>
         </div>
 

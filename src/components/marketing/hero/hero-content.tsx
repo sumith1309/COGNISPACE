@@ -64,7 +64,7 @@ export function HeroContent() {
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/solutions">See Our Work</Link>
+            <Link href="/work">See Our Work</Link>
           </Button>
         </motion.div>
 

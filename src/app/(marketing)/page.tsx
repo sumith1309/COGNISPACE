@@ -4,7 +4,6 @@ import { CapabilitiesSection } from '@/components/marketing/capabilities-section
 import { ProcessSection } from '@/components/marketing/process-section';
 import { MetricsBar } from '@/components/marketing/metrics-bar';
 import { IndustriesSection } from '@/components/marketing/industries-section';
-import { TestimonialsSection } from '@/components/marketing/testimonials-section';
 import { CTABannerSection } from '@/components/marketing/cta-banner-section';
 
 export default function HomePage() {
@@ -28,10 +27,7 @@ export default function HomePage() {
       {/* 6. Industries We Serve - 6 industry cards */}
       <IndustriesSection />
 
-      {/* 7. Testimonials Carousel */}
-      <TestimonialsSection />
-
-      {/* 8. Final CTA Banner */}
+      {/* 7. Final CTA Banner */}
       <CTABannerSection />
     </>
   );

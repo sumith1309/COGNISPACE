@@ -1,18 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Mail,
-  MapPin,
-  Clock,
-  Linkedin,
-  Github,
-  Twitter,
-  CheckCircle2,
-  ArrowRight,
-} from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -60,30 +49,6 @@ const INITIAL_FORM_STATE: FormState = {
   budget: '',
   referralSource: '',
 };
-
-const CONTACT_INFO = [
-  {
-    icon: Mail,
-    label: 'hello@cognispace.com',
-    href: 'mailto:hello@cognispace.com',
-  },
-  {
-    icon: MapPin,
-    label: 'Hyderabad, India',
-    href: undefined,
-  },
-  {
-    icon: Clock,
-    label: 'Typically respond within 24 hours',
-    href: undefined,
-  },
-] as const;
-
-const SOCIAL_LINKS = [
-  { icon: Linkedin, href: 'https://linkedin.com/company/cognispace', label: 'LinkedIn' },
-  { icon: Github, href: 'https://github.com/cognispace', label: 'GitHub' },
-  { icon: Twitter, href: 'https://twitter.com/cognispace', label: 'Twitter' },
-] as const;
 
 /* ─── Select Component ─── */
 
@@ -144,8 +109,6 @@ function FormSelect({
 export function ContactPageContent() {
   const [formData, setFormData] = useState<FormState>(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   function updateField<K extends keyof FormState>(field: K, value: FormState[K]) {
     setFormData((prev) => {
@@ -163,7 +126,14 @@ export function ContactPageContent() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  function getLabel(
+    options: ReadonlyArray<{ readonly value: string; readonly label: string }>,
+    value: string
+  ) {
+    return options.find((o) => o.value === value)?.label ?? value;
+  }
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErrors({});
 
@@ -200,38 +170,30 @@ export function ContactPageContent() {
       return;
     }
 
-    setIsLoading(true);
+    // Build mailto link that opens user's email client
+    const recipients = [
+      'sumithswaroop@gmail.com',
+      'adityatripathi1503@gmail.com',
+      'bhatnagar007vidit@gmail.com',
+    ].join(',');
 
-    try {
-      const response = await fetch('/api/v1/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(result.data),
-      });
+    const subject = 'Reaching Out — Cognispace Inquiry';
 
-      if (!response.ok) {
-        const errorBody = (await response.json()) as { error?: unknown };
-        if (Array.isArray(errorBody.error)) {
-          const fieldErrors: FormErrors = {};
-          for (const err of errorBody.error as Array<{ path: string; message: string }>) {
-            const key = err.path as keyof FormErrors;
-            if (key in INITIAL_FORM_STATE) {
-              fieldErrors[key] = err.message;
-            }
-          }
-          setErrors(fieldErrors);
-        } else {
-          setErrors({ fullName: 'Something went wrong. Please try again.' });
-        }
-        return;
-      }
+    const lines: string[] = [`Name: ${formData.fullName}`, `Email: ${formData.email}`];
+    if (formData.company) lines.push(`Company: ${formData.company}`);
+    if (formData.phone) lines.push(`Phone: ${formData.phone}`);
+    lines.push('');
+    lines.push(`Service: ${getLabel(SERVICE_OPTIONS, formData.serviceType)}`);
+    if (formData.budget) lines.push(`Budget: ${getLabel(BUDGET_OPTIONS, formData.budget)}`);
+    if (formData.referralSource)
+      lines.push(`Referral: ${getLabel(REFERRAL_OPTIONS, formData.referralSource)}`);
+    lines.push('');
+    lines.push('Project Details:');
+    lines.push(formData.description);
 
-      setIsSuccess(true);
-    } catch {
-      setErrors({ fullName: 'Network error. Please check your connection and try again.' });
-    } finally {
-      setIsLoading(false);
-    }
+    const body = lines.join('\n');
+
+    window.location.href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
   return (
@@ -261,50 +223,6 @@ export function ContactPageContent() {
               Whether you have a clear vision or just a kernel of an idea, we&apos;d love to hear
               about it. Our initial consultation is free &mdash; no strings attached.
             </p>
-
-            {/* Contact info items */}
-            <div className="mt-10 space-y-5">
-              {CONTACT_INFO.map((item) => (
-                <div key={item.label} className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-[#3B82F6] dark:bg-blue-950/50 dark:text-blue-400">
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-sm font-medium text-[#334155] transition-colors hover:text-[#3B82F6] dark:text-slate-300 dark:hover:text-blue-400"
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <span className="text-sm font-medium text-[#334155] dark:text-slate-300">
-                      {item.label}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Social links */}
-            <div className="mt-10">
-              <p className="mb-3 text-sm font-medium text-[#64748B] dark:text-slate-500">
-                Follow us
-              </p>
-              <div className="flex gap-3">
-                {SOCIAL_LINKS.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-[#64748B] transition-all hover:border-[#3B82F6] hover:text-[#3B82F6] dark:border-slate-700 dark:text-slate-400 dark:hover:border-blue-500 dark:hover:text-blue-400"
-                  >
-                    <social.icon className="h-4 w-4" />
-                  </a>
-                ))}
-              </div>
-            </div>
           </motion.div>
 
           {/* ── Right Column ── */}
@@ -314,141 +232,100 @@ export function ContactPageContent() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <AnimatePresence mode="wait">
-              {isSuccess ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900"
-                >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-                    <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
-                  </div>
-                  <h2 className="mt-6 text-2xl font-bold text-[#0F172A] dark:text-white">
-                    Thank you!
-                  </h2>
-                  <p className="mt-3 max-w-sm text-[#334155] dark:text-slate-400">
-                    We&apos;ll be in touch within 24 hours. In the meantime, check out our
-                    solutions.
-                  </p>
-                  <Link href="/solutions">
-                    <Button variant="primary" size="lg" className="mt-8" rightIcon={<ArrowRight />}>
-                      Explore Solutions
-                    </Button>
-                  </Link>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="form"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900"
-                >
-                  <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                    {/* Full Name + Email */}
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <Input
-                        label="Full name"
-                        placeholder="Jane Doe"
-                        required
-                        value={formData.fullName}
-                        onChange={(e) => updateField('fullName', e.target.value)}
-                        error={errors.fullName}
-                      />
-                      <Input
-                        label="Work email"
-                        type="email"
-                        placeholder="jane@company.com"
-                        required
-                        value={formData.email}
-                        onChange={(e) => updateField('email', e.target.value)}
-                        error={errors.email}
-                      />
-                    </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                {/* Full Name + Email */}
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Input
+                    label="Full name"
+                    placeholder="Jane Doe"
+                    required
+                    value={formData.fullName}
+                    onChange={(e) => updateField('fullName', e.target.value)}
+                    error={errors.fullName}
+                  />
+                  <Input
+                    label="Work email"
+                    type="email"
+                    placeholder="jane@company.com"
+                    required
+                    value={formData.email}
+                    onChange={(e) => updateField('email', e.target.value)}
+                    error={errors.email}
+                  />
+                </div>
 
-                    {/* Company + Phone */}
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <Input
-                        label="Company name"
-                        placeholder="Acme Inc."
-                        value={formData.company}
-                        onChange={(e) => updateField('company', e.target.value)}
-                        error={errors.company}
-                      />
-                      <Input
-                        label="Phone number"
-                        type="tel"
-                        placeholder="+1 (555) 000-0000"
-                        value={formData.phone}
-                        onChange={(e) => updateField('phone', e.target.value)}
-                        error={errors.phone}
-                      />
-                    </div>
+                {/* Company + Phone */}
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Input
+                    label="Company name"
+                    placeholder="Acme Inc."
+                    value={formData.company}
+                    onChange={(e) => updateField('company', e.target.value)}
+                    error={errors.company}
+                  />
+                  <Input
+                    label="Phone number"
+                    type="tel"
+                    placeholder="+1 (555) 000-0000"
+                    value={formData.phone}
+                    onChange={(e) => updateField('phone', e.target.value)}
+                    error={errors.phone}
+                  />
+                </div>
 
-                    {/* Service Type */}
-                    <FormSelect
-                      label="What can we help you with?"
-                      value={formData.serviceType}
-                      onChange={(val) => updateField('serviceType', val)}
-                      options={SERVICE_OPTIONS}
-                      placeholder="Select a service type"
-                      error={errors.serviceType}
-                      required
-                    />
+                {/* Service Type */}
+                <FormSelect
+                  label="What can we help you with?"
+                  value={formData.serviceType}
+                  onChange={(val) => updateField('serviceType', val)}
+                  options={SERVICE_OPTIONS}
+                  placeholder="Select a service type"
+                  error={errors.serviceType}
+                  required
+                />
 
-                    {/* Project Description */}
-                    <Textarea
-                      label="Tell us about your project"
-                      placeholder="Describe your goals, challenges, and any specific requirements..."
-                      rows={5}
-                      required
-                      value={formData.description}
-                      onChange={(e) => updateField('description', e.target.value)}
-                      error={errors.description}
-                    />
+                {/* Project Description */}
+                <Textarea
+                  label="Tell us about your project"
+                  placeholder="Describe your goals, challenges, and any specific requirements..."
+                  rows={5}
+                  required
+                  value={formData.description}
+                  onChange={(e) => updateField('description', e.target.value)}
+                  error={errors.description}
+                />
 
-                    {/* Budget + Referral */}
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <FormSelect
-                        label="Estimated budget"
-                        value={formData.budget}
-                        onChange={(val) => updateField('budget', val)}
-                        options={BUDGET_OPTIONS}
-                        placeholder="Select a range (optional)"
-                        error={errors.budget}
-                      />
-                      <FormSelect
-                        label="How did you hear about us?"
-                        value={formData.referralSource}
-                        onChange={(val) => updateField('referralSource', val)}
-                        options={REFERRAL_OPTIONS}
-                        placeholder="Select an option (optional)"
-                        error={errors.referralSource}
-                      />
-                    </div>
+                {/* Budget + Referral */}
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <FormSelect
+                    label="Estimated budget"
+                    value={formData.budget}
+                    onChange={(val) => updateField('budget', val)}
+                    options={BUDGET_OPTIONS}
+                    placeholder="Select a range (optional)"
+                    error={errors.budget}
+                  />
+                  <FormSelect
+                    label="How did you hear about us?"
+                    value={formData.referralSource}
+                    onChange={(val) => updateField('referralSource', val)}
+                    options={REFERRAL_OPTIONS}
+                    placeholder="Select an option (optional)"
+                    error={errors.referralSource}
+                  />
+                </div>
 
-                    {/* Submit */}
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      size="lg"
-                      isLoading={isLoading}
-                      className="w-full"
-                    >
-                      Send Message
-                    </Button>
+                {/* Submit */}
+                <Button type="submit" variant="primary" size="lg" className="w-full">
+                  Send Message
+                </Button>
 
-                    <p className="text-center text-xs text-[#64748B] dark:text-slate-500">
-                      We&apos;ll never share your information with third parties.
-                    </p>
-                  </form>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                <p className="text-center text-xs text-[#64748B] dark:text-slate-500">
+                  We&apos;ll never share your information with third parties.
+                </p>
+              </form>
+            </div>
           </motion.div>
         </div>
       </div>

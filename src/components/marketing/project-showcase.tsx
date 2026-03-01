@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -110,8 +111,17 @@ function ProjectCard({
   );
 }
 
+const validCategories = new Set<string>(industries.map((i) => i.id));
+
 export function ProjectShowcase() {
-  const [activeCategory, setActiveCategory] = useState<'all' | IndustryCategory>('all');
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const initialCategory: 'all' | IndustryCategory =
+    categoryParam && validCategories.has(categoryParam)
+      ? (categoryParam as IndustryCategory)
+      : 'all';
+
+  const [activeCategory, setActiveCategory] = useState<'all' | IndustryCategory>(initialCategory);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const filteredProjects = useMemo(() => {

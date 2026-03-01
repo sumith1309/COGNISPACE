@@ -3,15 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  Stethoscope,
-  Landmark,
-  Scale,
-  ShoppingBag,
-  GraduationCap,
-  Truck,
-  ArrowRight,
-} from 'lucide-react';
+import { Stethoscope, Landmark, ShoppingBag, GraduationCap, Truck, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface IndustryCardProps {
@@ -77,7 +69,7 @@ const industries: Omit<IndustryCardProps, 'index'>[] = [
     name: 'Healthcare',
     description:
       'AI-powered diagnostics, patient engagement platforms, clinical workflow automation, and HIPAA-compliant data systems.',
-    href: '/solutions#healthcare',
+    href: '/work?category=healthcare',
     colorClasses: {
       bg: 'bg-emerald-50 dark:bg-emerald-950',
       icon: 'text-emerald-500',
@@ -88,21 +80,10 @@ const industries: Omit<IndustryCardProps, 'index'>[] = [
     name: 'Finance',
     description:
       'Fraud detection, risk assessment, algorithmic trading tools, and intelligent financial advisory platforms.',
-    href: '/solutions#finance',
+    href: '/work?category=finance',
     colorClasses: {
       bg: 'bg-blue-50 dark:bg-blue-950',
       icon: 'text-blue-500',
-    },
-  },
-  {
-    icon: Scale,
-    name: 'Legal',
-    description:
-      'Contract analysis, legal research assistants, compliance monitoring, and document intelligence systems.',
-    href: '/solutions#legal',
-    colorClasses: {
-      bg: 'bg-violet-50 dark:bg-violet-950',
-      icon: 'text-violet-500',
     },
   },
   {
@@ -110,7 +91,7 @@ const industries: Omit<IndustryCardProps, 'index'>[] = [
     name: 'E-commerce',
     description:
       'Personalized recommendation engines, dynamic pricing, inventory forecasting, and conversational commerce.',
-    href: '/solutions#ecommerce',
+    href: '/work?category=retail',
     colorClasses: {
       bg: 'bg-amber-50 dark:bg-amber-950',
       icon: 'text-amber-500',
@@ -121,7 +102,7 @@ const industries: Omit<IndustryCardProps, 'index'>[] = [
     name: 'Education',
     description:
       'Adaptive learning platforms, AI tutoring systems, automated grading, and student performance analytics.',
-    href: '/solutions#education',
+    href: '/work?category=education',
     colorClasses: {
       bg: 'bg-cyan-50 dark:bg-cyan-950',
       icon: 'text-cyan-500',
@@ -132,7 +113,7 @@ const industries: Omit<IndustryCardProps, 'index'>[] = [
     name: 'Logistics',
     description:
       'Route optimization, demand forecasting, warehouse automation, and supply chain intelligence.',
-    href: '/solutions#logistics',
+    href: '/work?category=logistics',
     colorClasses: {
       bg: 'bg-orange-50 dark:bg-orange-950',
       icon: 'text-orange-500',
