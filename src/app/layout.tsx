@@ -5,6 +5,7 @@ import { siteConfig } from '@/config/site';
 import { ThemeProvider } from '@/components/shared/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/shared/toaster';
+import { AuthSessionProvider } from '@/components/shared/session-provider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -69,23 +70,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${mono.variable} font-sans antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <TooltipProvider delayDuration={150}>
-            <a
-              href="#main-content"
-              className="focus:bg-brand-500 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:text-white focus:outline-none"
-            >
-              Skip to main content
-            </a>
-            {children}
-            <Toaster />
-          </TooltipProvider>
-        </ThemeProvider>
+        <AuthSessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={false}
+            disableTransitionOnChange
+          >
+            <TooltipProvider delayDuration={150}>
+              <a
+                href="#main-content"
+                className="focus:bg-brand-500 sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+              >
+                Skip to main content
+              </a>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </ThemeProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

@@ -26,9 +26,9 @@ import {
   INDUSTRIES,
   TIMELINES,
   BUDGETS,
-  MODEL_OPTIONS,
-  API_VOLUMES,
-  INTEGRATION_OPTIONS,
+  SERVICE_OPTIONS,
+  PROJECT_SCALES,
+  REQUIREMENT_OPTIONS,
   MEETING_FORMATS,
   REFERRAL_SOURCES,
 } from '@/lib/validations/enterprise-form';
@@ -69,7 +69,7 @@ function ProgressIndicator({ currentStep, steps }: { currentStep: number; steps:
                 'flex h-3 w-3 items-center justify-center rounded-full transition-colors duration-300',
                 idx < currentStep && 'bg-brand-500',
                 idx === currentStep && 'bg-brand-500',
-                idx > currentStep && 'bg-slate-200'
+                idx > currentStep && 'bg-slate-200 dark:bg-slate-700'
               )}
             >
               {idx < currentStep && <Check className="h-2 w-2 text-white" strokeWidth={3} />}
@@ -78,7 +78,7 @@ function ProgressIndicator({ currentStep, steps }: { currentStep: number; steps:
               <div
                 className={cn(
                   'mx-2 h-0.5 w-10 transition-colors duration-300 sm:w-16',
-                  idx < currentStep ? 'bg-brand-500' : 'bg-slate-200'
+                  idx < currentStep ? 'bg-brand-500' : 'bg-slate-200 dark:bg-slate-700'
                 )}
               />
             )}
@@ -93,7 +93,7 @@ function ProgressIndicator({ currentStep, steps }: { currentStep: number; steps:
               key={step.id}
               className={cn(
                 'text-xs font-medium transition-colors',
-                idx <= currentStep ? 'text-brand-500' : 'text-slate-400'
+                idx <= currentStep ? 'text-brand-500' : 'text-slate-400 dark:text-slate-500'
               )}
             >
               {step.label}
@@ -144,9 +144,9 @@ export function EnterpriseModal({ open, onOpenChange }: EnterpriseModalProps) {
     budget: '',
   });
   const [technical, setTechnical] = useState<Partial<TechnicalStepData>>({
-    models: [],
-    apiVolume: '',
-    integrations: [],
+    services: [],
+    projectScale: '',
+    requirements: [],
   });
   const [contact, setContact] = useState<Partial<ContactStepData>>({
     fullName: '',
@@ -165,7 +165,7 @@ export function EnterpriseModal({ open, onOpenChange }: EnterpriseModalProps) {
     setErrors({});
     setCompany({ companyName: '', website: '', companySize: '', industry: '' });
     setProject({ useCase: '', timeline: '', budget: '' });
-    setTechnical({ models: [], apiVolume: '', integrations: [] });
+    setTechnical({ services: [], projectScale: '', requirements: [] });
     setContact({
       fullName: '',
       email: '',
@@ -293,8 +293,8 @@ export function EnterpriseModal({ open, onOpenChange }: EnterpriseModalProps) {
         return (
           <div className="space-y-5">
             <Textarea
-              label="Primary Use Case"
-              placeholder="Describe what you're building..."
+              label="Project Description"
+              placeholder="Describe what you're looking to build..."
               value={project.useCase || ''}
               onChange={(e) => setProject({ ...project, useCase: e.target.value })}
               error={errors['useCase']}
@@ -322,58 +322,60 @@ export function EnterpriseModal({ open, onOpenChange }: EnterpriseModalProps) {
         return (
           <div className="space-y-5">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-slate-700">Models of Interest</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                Services Needed
+              </label>
               <div className="grid grid-cols-2 gap-2">
-                {MODEL_OPTIONS.map((opt) => (
+                {SERVICE_OPTIONS.map((opt) => (
                   <Checkbox
                     key={opt.value}
                     label={opt.label}
-                    checked={technical.models?.includes(opt.value) || false}
+                    checked={technical.services?.includes(opt.value) || false}
                     onCheckedChange={() =>
                       setTechnical({
                         ...technical,
-                        models: toggleArray(technical.models, opt.value),
+                        services: toggleArray(technical.services, opt.value),
                       })
                     }
                   />
                 ))}
               </div>
-              {errors['models'] && (
-                <p className="text-sm text-red-600" role="alert">
-                  {errors['models']}
+              {errors['services'] && (
+                <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors['services']}
                 </p>
               )}
             </div>
             <SelectField
-              label="Expected Monthly API Volume"
-              placeholder="Select API volume"
-              value={technical.apiVolume || ''}
-              onValueChange={(v) => setTechnical({ ...technical, apiVolume: v })}
-              options={API_VOLUMES}
-              error={errors['apiVolume']}
+              label="Project Scale"
+              placeholder="Select project scale"
+              value={technical.projectScale || ''}
+              onValueChange={(v) => setTechnical({ ...technical, projectScale: v })}
+              options={PROJECT_SCALES}
+              error={errors['projectScale']}
             />
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-slate-700">
-                Integration Requirements
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                Technical Requirements
               </label>
               <div className="grid grid-cols-2 gap-2">
-                {INTEGRATION_OPTIONS.map((opt) => (
+                {REQUIREMENT_OPTIONS.map((opt) => (
                   <Checkbox
                     key={opt.value}
                     label={opt.label}
-                    checked={technical.integrations?.includes(opt.value) || false}
+                    checked={technical.requirements?.includes(opt.value) || false}
                     onCheckedChange={() =>
                       setTechnical({
                         ...technical,
-                        integrations: toggleArray(technical.integrations, opt.value),
+                        requirements: toggleArray(technical.requirements, opt.value),
                       })
                     }
                   />
                 ))}
               </div>
-              {errors['integrations'] && (
-                <p className="text-sm text-red-600" role="alert">
-                  {errors['integrations']}
+              {errors['requirements'] && (
+                <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+                  {errors['requirements']}
                 </p>
               )}
             </div>
@@ -453,16 +455,19 @@ export function EnterpriseModal({ open, onOpenChange }: EnterpriseModalProps) {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.15, type: 'spring', stiffness: 200, damping: 15 }}
-              className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50"
+              className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-950/30"
             >
               <CheckCircle2 className="h-8 w-8 text-emerald-500" />
             </motion.div>
-            <h3 className="text-xl font-bold text-slate-900">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
               Thank you! We&apos;ll be in touch within 24 hours.
             </h3>
-            <p className="mt-2 text-sm text-slate-500">
-              Our enterprise team will reach out to{' '}
-              <span className="font-medium text-slate-700">{contact.email}</span> with next steps.
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+              Our team will reach out to{' '}
+              <span className="font-medium text-slate-700 dark:text-slate-300">
+                {contact.email}
+              </span>{' '}
+              with next steps.
             </p>
             <Button className="mt-6" onClick={() => handleOpenChange(false)}>
               Close
@@ -471,9 +476,9 @@ export function EnterpriseModal({ open, onOpenChange }: EnterpriseModalProps) {
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Get Enterprise Pricing</DialogTitle>
+              <DialogTitle>Get a Custom Quote</DialogTitle>
               <DialogDescription>
-                Tell us about your needs and we&apos;ll create a custom plan.
+                Tell us about your project and we&apos;ll create a tailored proposal.
               </DialogDescription>
             </DialogHeader>
 

@@ -10,6 +10,7 @@ import { Logo } from '@/components/shared/logo';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { dashboardNavigation } from '@/config/navigation';
 import { getIcon } from '@/lib/icons';
 import { SidebarUser } from './sidebar-user';
@@ -68,9 +69,14 @@ export function Sidebar() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.15 }}
-                      className="truncate text-sm font-medium"
+                      className="flex flex-1 items-center justify-between truncate text-sm font-medium"
                     >
                       {item.title}
+                      {item.badge != null && (
+                        <Badge variant="default" className="ml-auto px-1.5 py-0 text-[10px]">
+                          {item.badge}
+                        </Badge>
+                      )}
                     </motion.span>
                   )}
                 </AnimatePresence>

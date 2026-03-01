@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Briefcase, Building2, Wrench, Award } from 'lucide-react';
+import { FolderCheck, Heart, Globe, TrendingUp } from 'lucide-react';
 import { useAnimatedCounter } from '@/hooks/use-animated-counter';
-import { cn } from '@/lib/utils';
 
 interface MetricItemProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -43,27 +42,28 @@ function MetricItem({
 export function MetricsBar() {
   const metrics: MetricItemProps[] = [
     {
-      icon: Briefcase,
-      value: 60,
-      label: 'AI Projects Delivered',
+      icon: FolderCheck,
+      value: 50,
+      label: 'Projects Delivered',
       suffix: '+',
     },
     {
-      icon: Building2,
-      value: 9,
-      label: 'Industries Served',
-    },
-    {
-      icon: Wrench,
-      value: 25,
-      label: 'Technologies Mastered',
-      suffix: '+',
-    },
-    {
-      icon: Award,
-      value: 100,
+      icon: Heart,
+      value: 98,
       label: 'Client Satisfaction',
       suffix: '%',
+    },
+    {
+      icon: Globe,
+      value: 12,
+      label: 'Industries Served',
+      suffix: '+',
+    },
+    {
+      icon: TrendingUp,
+      value: 3,
+      label: 'Average ROI',
+      suffix: 'x',
     },
   ];
 

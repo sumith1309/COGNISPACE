@@ -1,44 +1,36 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/utils';
 
-const technologies = [
-  'LangGraph',
-  'Claude API',
-  'GPT-4',
-  'SHAP',
-  'TensorFlow',
-  'PyTorch',
-  'ONNX',
-  'Triton',
-  'FastAPI',
-  'Django',
-  'Next.js',
-  'React',
-  'OpenCV',
-  'YOLOv5',
-  'Whisper',
-  'DistilBERT',
-  'CTGAN',
-  'MediaPipe',
-  'HeyGen',
-  'Deepgram',
-  'dlib',
-  'Docker',
-  'Kubernetes',
-  'AWS',
+const capabilitiesRow = [
+  'Custom AI Solutions',
+  'Full-Stack Development',
+  'Machine Learning',
+  'Product Design',
+  'Cloud Infrastructure',
+  'Data Engineering',
+  'NLP & Computer Vision',
 ];
 
-interface TechBadgeProps {
-  name: string;
-}
+const industriesRow = [
+  'Healthcare',
+  'Finance',
+  'Legal',
+  'E-commerce',
+  'Education',
+  'Logistics',
+  'Real Estate',
+  'Enterprise SaaS',
+];
 
-function TechBadge({ name }: TechBadgeProps) {
+function MarqueeItem({ text }: { text: string }) {
   return (
-    <div className="flex shrink-0 items-center justify-center px-8">
+    <div className="flex shrink-0 items-center gap-6 px-4">
       <span className="text-2xl font-semibold whitespace-nowrap text-slate-200 dark:text-slate-700">
-        {name}
+        {text}
+      </span>
+      <span className="text-slate-300 dark:text-slate-700" aria-hidden="true">
+        •
       </span>
     </div>
   );
@@ -49,54 +41,46 @@ export function SocialProofMarquee() {
     <section className="border-y border-slate-100 bg-white py-12 dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-8 text-center">
         <p className="text-sm font-medium tracking-wider text-slate-500 uppercase">
-          Our Technology Arsenal
+          What We Bring to the Table
         </p>
       </div>
 
       <div className="relative overflow-hidden">
-        {/* Top Row - Scroll Left */}
+        {/* Top Row - Capabilities */}
         <div className="mb-8 flex">
           <div className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]">
-            {technologies.map((company, i) => (
-              <TechBadge key={`top-1-${i}`} name={company} />
+            {capabilitiesRow.map((item, i) => (
+              <MarqueeItem key={`top-1-${i}`} text={item} />
             ))}
           </div>
-          {/* Duplicate for seamless loop */}
           <div
             className="animate-marquee flex shrink-0 hover:[animation-play-state:paused]"
             aria-hidden="true"
           >
-            {technologies.map((company, i) => (
-              <TechBadge key={`top-2-${i}`} name={company} />
+            {capabilitiesRow.map((item, i) => (
+              <MarqueeItem key={`top-2-${i}`} text={item} />
             ))}
           </div>
         </div>
 
-        {/* Bottom Row - Scroll Right */}
+        {/* Bottom Row - Industries */}
         <div className="flex">
           <div className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]">
-            {technologies
-              .slice()
-              .reverse()
-              .map((company, i) => (
-                <TechBadge key={`bottom-1-${i}`} name={company} />
-              ))}
+            {industriesRow.map((item, i) => (
+              <MarqueeItem key={`bottom-1-${i}`} text={item} />
+            ))}
           </div>
-          {/* Duplicate for seamless loop */}
           <div
             className="animate-marquee-reverse flex shrink-0 hover:[animation-play-state:paused]"
             aria-hidden="true"
           >
-            {technologies
-              .slice()
-              .reverse()
-              .map((company, i) => (
-                <TechBadge key={`bottom-2-${i}`} name={company} />
-              ))}
+            {industriesRow.map((item, i) => (
+              <MarqueeItem key={`bottom-2-${i}`} text={item} />
+            ))}
           </div>
         </div>
 
-        {/* Gradient Overlays for smooth fade edges */}
+        {/* Gradient Overlays */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent dark:from-slate-900" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent dark:from-slate-900" />
       </div>

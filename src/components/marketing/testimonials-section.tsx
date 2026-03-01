@@ -20,45 +20,45 @@ const testimonials: Testimonial[] = [
     id: '1',
     name: 'Sarah Chen',
     role: 'CTO',
-    company: 'DataFlow',
+    company: 'MedTech Solutions',
     content:
-      'Cognispace took our vague idea about using AI for document processing and turned it into a production system in 6 weeks. Their team understood our domain deeply and delivered beyond expectations.',
+      "Cognispace didn't just build us a product \u2014 they transformed how we think about AI in our business. The customer support platform they delivered reduced our response time by 70%.",
     initials: 'SC',
   },
   {
     id: '2',
     name: 'Marcus Rivera',
-    role: 'Lead Engineer',
-    company: 'NeuralEdge',
+    role: 'VP Engineering',
+    company: 'FinanceFlow',
     content:
-      'What impressed us most was their ability to evaluate multiple ML approaches and pick the one that actually worked at scale. No hype, just rigorous engineering with real results.',
+      'Working with the Cognispace team felt like having a world-class AI lab embedded in our company. They delivered ahead of schedule and the quality was exceptional.',
     initials: 'MR',
   },
   {
     id: '3',
     name: 'Priya Sharma',
-    role: 'VP Engineering',
-    company: 'ScaleAI',
+    role: 'Head of Legal Tech',
+    company: 'LegalMind AI',
     content:
-      'We needed an AI recommendation engine that could handle millions of users. Cognispace built it, deployed it, and it has been running flawlessly for over a year with sub-10ms latency.',
+      'The document intelligence system they built handles 10,000 contracts per month with 99.2% accuracy. It would have taken us years to build this internally.',
     initials: 'PS',
   },
   {
     id: '4',
     name: 'James Kim',
-    role: 'Product Manager',
-    company: 'CloudMind',
+    role: 'CEO',
+    company: 'RetailGenius',
     content:
-      'They did not just build what we asked for — they challenged our assumptions, proposed a better architecture, and delivered a system that was simpler and more performant than we imagined.',
+      "From day one, Vidit and the team understood our business deeply. They didn't just write code \u2014 they solved real problems we didn't even know we had.",
     initials: 'JK',
   },
   {
     id: '5',
     name: 'Elena Volkov',
-    role: 'Head of AI',
-    company: 'TechCorp',
+    role: 'COO',
+    company: 'LogiChain',
     content:
-      'From LMS platforms to AI-powered assessments, Cognispace has been our go-to partner for anything at the intersection of education and machine intelligence. Consistently excellent work.',
+      "The ROI was clear within the first month. Our AI-powered analytics dashboard identified $2M in cost savings that we'd been missing.",
     initials: 'EV',
   },
 ];
@@ -68,7 +68,6 @@ export function TestimonialsSection() {
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-advance every 5 seconds
   useEffect(() => {
     if (isPaused) return;
 
@@ -124,10 +123,10 @@ export function TestimonialsSection() {
           className="mb-16 text-center"
         >
           <span className="text-brand-500 inline-block rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] uppercase dark:bg-blue-950">
-            What Clients Say
+            Client Stories
           </span>
           <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
-            Trusted by teams building with AI
+            Trusted by industry leaders
           </h2>
         </motion.div>
 
@@ -179,7 +178,6 @@ export function TestimonialsSection() {
               <ChevronLeft className="h-5 w-5" />
             </Button>
 
-            {/* Dots */}
             <div className="flex gap-2">
               {testimonials.map((_, index) => (
                 <button

@@ -18,11 +18,10 @@ export function CTABannerSection() {
           className="text-center"
         >
           <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
-            Have an AI challenge? Let&apos;s solve it.
+            Ready to build something intelligent?
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">
-            Whether you have a clear AI vision or just a hunch that machine intelligence could
-            transform your operations — we&apos;d love to hear about it.
+            Tell us about your project. We&apos;ll explore how AI can transform your business.
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -32,12 +31,14 @@ export function CTABannerSection() {
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/work">Explore Our Work</Link>
+            <Button asChild variant="ghost" size="lg">
+              <Link href="/solutions">See Our Solutions</Link>
             </Button>
           </div>
 
-          <p className="mt-6 text-sm text-slate-400">Typical engagement starts in under 2 weeks</p>
+          <p className="mt-6 text-sm text-slate-400">
+            Free initial consultation. No commitment required.
+          </p>
         </motion.div>
       </div>
 

@@ -1,37 +1,37 @@
 import { HeroSection } from '@/components/marketing/hero/hero-section';
 import { SocialProofMarquee } from '@/components/marketing/social-proof-marquee';
 import { CapabilitiesSection } from '@/components/marketing/capabilities-section';
-import { CodeDemoSection } from '@/components/marketing/code-demo-section';
+import { ProcessSection } from '@/components/marketing/process-section';
 import { MetricsBar } from '@/components/marketing/metrics-bar';
-import { HowItWorksSection } from '@/components/marketing/how-it-works-section';
+import { IndustriesSection } from '@/components/marketing/industries-section';
 import { TestimonialsSection } from '@/components/marketing/testimonials-section';
 import { CTABannerSection } from '@/components/marketing/cta-banner-section';
 
 export default function HomePage() {
   return (
     <>
-      {/* 1. Hero — Studio positioning with 3D scene */}
+      {/* 1. Hero Section - 100vh with 3D scene */}
       <HeroSection />
 
-      {/* 2. Tech Stack Marquee */}
+      {/* 2. Social Proof Marquee */}
       <SocialProofMarquee />
 
-      {/* 3. Industry Expertise — 3 vertical cards */}
+      {/* 3. Core Capabilities - 3 feature cards */}
       <CapabilitiesSection />
 
-      {/* 4. Featured Project Deep Dive */}
-      <CodeDemoSection />
+      {/* 4. How We Work - 4-phase process */}
+      <ProcessSection />
 
-      {/* 5. Impact Metrics — 4 animated counters */}
+      {/* 5. Metrics Bar - 4 animated counters */}
       <MetricsBar />
 
-      {/* 6. Our Process — 3-step Discover/Build/Deploy */}
-      <HowItWorksSection />
+      {/* 6. Industries We Serve - 6 industry cards */}
+      <IndustriesSection />
 
-      {/* 7. Client Testimonials */}
+      {/* 7. Testimonials Carousel */}
       <TestimonialsSection />
 
-      {/* 8. Contact CTA Banner */}
+      {/* 8. Final CTA Banner */}
       <CTABannerSection />
     </>
   );

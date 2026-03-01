@@ -1,32 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import type { PricingPlan, BillingPeriod } from '@/lib/pricing-data';
+import type { PricingPlan } from '@/lib/pricing-data';
 
 interface PlanCardProps {
   plan: PricingPlan;
-  billingPeriod: BillingPeriod;
   index: number;
+  billingPeriod?: string; // kept for compat, not used
   onContactSales?: () => void;
 }
 
-export function PlanCard({ plan, billingPeriod, index, onContactSales }: PlanCardProps) {
+export function PlanCard({ plan, index, onContactSales }: PlanCardProps) {
   const isPro = plan.id === 'pro';
   const isEnterprise = plan.id === 'enterprise';
   const isStarter = plan.id === 'starter';
 
   const checkColor = isPro ? 'text-brand-500' : isEnterprise ? 'text-violet-500' : 'text-slate-400';
-
-  const price =
-    plan.monthlyPrice !== null
-      ? billingPeriod === 'monthly'
-        ? plan.monthlyPrice
-        : plan.annualPrice
-      : null;
 
   return (
     <motion.div
@@ -52,65 +45,46 @@ export function PlanCard({ plan, billingPeriod, index, onContactSales }: PlanCar
 
       <div
         className={cn(
-          'flex flex-1 flex-col rounded-2xl border bg-white p-8 transition-shadow duration-200',
-          isPro && 'border-brand-200 border-2 shadow-[0_0_40px_rgba(59,130,246,0.08)] lg:pt-10',
-          isEnterprise && 'bg-gradient-to-b from-white to-slate-50',
-          isStarter && 'border-slate-200',
-          !isPro && !isEnterprise && 'border-slate-200',
+          'flex flex-1 flex-col rounded-2xl border bg-white p-8 transition-shadow duration-200 dark:bg-slate-900',
+          isPro &&
+            'border-brand-200 dark:border-brand-800 border-2 shadow-[0_0_40px_rgba(59,130,246,0.08)] lg:pt-10',
+          isEnterprise &&
+            'bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950',
+          isStarter && 'border-slate-200 dark:border-slate-800',
+          !isPro && !isEnterprise && 'border-slate-200 dark:border-slate-800',
           'hover:shadow-lg'
         )}
       >
         {/* Plan Name */}
-        <p className="text-lg font-semibold text-slate-900">{plan.name}</p>
+        <p className="text-lg font-semibold text-slate-900 dark:text-white">{plan.name}</p>
 
         {/* Price */}
         <div className="mt-4 flex items-baseline">
-          {price !== null ? (
-            <>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={`${plan.id}-${billingPeriod}`}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-5xl font-bold text-slate-900"
-                >
-                  {billingPeriod === 'annual' && plan.monthlyPrice !== plan.annualPrice && (
-                    <span className="mr-2 text-2xl font-medium text-slate-300 line-through">
-                      ${plan.monthlyPrice}
-                    </span>
-                  )}
-                  ${price}
-                </motion.span>
-              </AnimatePresence>
-              <span className="ml-1 text-base text-slate-400">/month</span>
-            </>
-          ) : (
-            <span className="text-5xl font-bold text-slate-900">Custom</span>
-          )}
+          <span className="text-4xl font-bold text-slate-900 dark:text-white">
+            {plan.priceLabel}
+          </span>
         </div>
 
         {/* Description */}
-        <p className="mt-2 text-sm text-slate-500">{plan.description}</p>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{plan.description}</p>
 
         {/* CTA Button */}
         <div className="mt-6">
           {isEnterprise ? (
             <Button
               variant="outline"
-              className="w-full border-violet-200 text-violet-600 hover:bg-violet-50 hover:text-violet-700"
+              className="w-full border-violet-200 text-violet-600 hover:bg-violet-50 hover:text-violet-700 dark:border-violet-800 dark:text-violet-400 dark:hover:bg-violet-950"
               onClick={onContactSales}
             >
               {plan.cta.text}
             </Button>
           ) : isPro ? (
             <Button asChild className="w-full" variant="primary">
-              <Link href={(plan.cta.href || '/auth/signup') as '/'}>{plan.cta.text}</Link>
+              <Link href={(plan.cta.href ?? '/contact') as '/'}>{plan.cta.text}</Link>
             </Button>
           ) : (
             <Button asChild variant="outline" className="w-full">
-              <Link href={(plan.cta.href || '/auth/signup') as '/'}>{plan.cta.text}</Link>
+              <Link href={(plan.cta.href ?? '/contact') as '/'}>{plan.cta.text}</Link>
             </Button>
           )}
         </div>
@@ -119,13 +93,13 @@ export function PlanCard({ plan, billingPeriod, index, onContactSales }: PlanCar
         <ul className="mt-8 flex-1 space-y-3">
           {plan.features.map((feature, i) =>
             feature.highlighted ? (
-              <li key={i} className="mb-3 text-sm font-semibold text-slate-700">
+              <li key={i} className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300">
                 {feature.name}
               </li>
             ) : (
               <li key={i} className="flex items-start gap-3">
                 <Check className={cn('mt-0.5 h-4 w-4 shrink-0', checkColor)} />
-                <span className="text-sm text-slate-600">{feature.name}</span>
+                <span className="text-sm text-slate-600 dark:text-slate-400">{feature.name}</span>
               </li>
             )
           )}

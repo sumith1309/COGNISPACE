@@ -3,30 +3,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  MessageSquare,
-  ChevronDown,
-  TrendingUp,
-  Heart,
-  GraduationCap,
-  ShoppingCart,
-  Eye,
-  Brain,
-} from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AnimatedHeadline } from './animated-headline';
 
-const industryBadges = [
-  { label: 'Finance', icon: TrendingUp },
-  { label: 'Healthcare', icon: Heart },
-  { label: 'EdTech', icon: GraduationCap },
-  { label: 'Retail', icon: ShoppingCart },
-  { label: 'Vision', icon: Eye },
-  { label: 'NLP', icon: Brain },
-];
-
 export function HeroContent() {
+  const companies = [
+    'MedTech Solutions',
+    'FinanceFlow',
+    'LegalMind AI',
+    'RetailGenius',
+    'EduSpark',
+    'LogiChain',
+  ];
+
   return (
     <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl text-center">
@@ -39,14 +29,14 @@ export function HeroContent() {
         >
           <div className="bg-brand-500 h-2 w-2 animate-pulse rounded-full" />
           <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Technology Studio &middot; 60+ AI Projects Delivered
+            AI-Powered Software, Built for You
           </span>
         </motion.div>
 
         {/* Animated Headline */}
         <AnimatedHeadline
-          text="We build AI solutions that actually ship"
-          highlightWords={['AI', 'solutions']}
+          text="We build intelligent software that transforms your business"
+          highlightWords={['intelligent', 'software']}
         />
 
         {/* Subheadline */}
@@ -56,8 +46,8 @@ export function HeroContent() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl dark:text-slate-300"
         >
-          From LangGraph agents to production ML pipelines — Cognispace is a technology studio that
-          turns AI ambition into deployed, measurable outcomes.
+          Cognispace is a technology studio that partners with forward-thinking companies to design,
+          build, and ship AI-native software products — from concept to production.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -68,20 +58,17 @@ export function HeroContent() {
           className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
           <Button asChild size="lg" className="group">
-            <Link href="/work">
-              Explore Our Work
+            <Link href="/contact">
+              Start a Project
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="group">
-            <Link href="/contact">
-              <MessageSquare className="mr-2 h-4 w-4" />
-              Let&apos;s Talk
-            </Link>
+          <Button asChild variant="outline" size="lg">
+            <Link href="/solutions">See Our Work</Link>
           </Button>
         </motion.div>
 
-        {/* Industries We Serve */}
+        {/* Trusted By Section */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -89,23 +76,19 @@ export function HeroContent() {
           className="mt-16"
         >
           <p className="mb-6 text-sm font-medium text-slate-500 dark:text-slate-400">
-            Industries we serve
+            Trusted by teams across healthcare, finance, legal, and technology
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {industryBadges.map((industry) => {
-              const Icon = industry.icon;
-              return (
-                <div
-                  key={industry.label}
-                  className="flex items-center gap-2 rounded-lg bg-slate-100 px-4 py-2.5 transition-opacity hover:opacity-80 dark:bg-slate-800"
-                >
-                  <Icon className="h-4 w-4 text-slate-500 dark:text-slate-400" />
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    {industry.label}
-                  </span>
-                </div>
-              );
-            })}
+          <div className="flex flex-wrap items-center justify-center gap-8">
+            {companies.map((company) => (
+              <div
+                key={company}
+                className="flex h-12 items-center justify-center rounded-lg bg-slate-100 px-6 opacity-40 transition-opacity hover:opacity-60 dark:bg-slate-800"
+              >
+                <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  {company}
+                </span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

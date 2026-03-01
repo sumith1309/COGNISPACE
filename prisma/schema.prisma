@@ -1,0 +1,716 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// Cognispace Platform — Database Schema
+// PostgreSQL 16 via Prisma ORM
+// ═══════════════════════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── ENUMS ────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  CLIENT
+  TEAM_MEMBER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+  TRIALING
+  PAUSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING
+  RESOLVED
+  CLOSED
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ModelCategory {
+  NLP
+  VISION
+  AUDIO
+  MULTIMODAL
+  EMBEDDING
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
+}
+
+enum DeploymentStatus {
+  PENDING
+  DEPLOYING
+  ACTIVE
+  DEGRADED
+  FAILED
+  DECOMMISSIONED
+}
+
+enum ProjectStatus {
+  DISCOVERY       // Initial consultation & requirements gathering
+  PROPOSAL        // Proposal sent, awaiting approval
+  IN_PROGRESS     // Active development
+  REVIEW          // Client review phase
+  COMPLETED       // Project delivered
+  ON_HOLD         // Paused
+  CANCELLED       // Cancelled
+}
+
+enum MilestoneStatus {
+  UPCOMING
+  IN_PROGRESS
+  PENDING_REVIEW  // Delivered, awaiting client approval
+  APPROVED
+  REVISION        // Client requested changes
+}
+
+enum DeliverableType {
+  DOCUMENT        // SOW, proposals, reports
+  DESIGN          // UI/UX mockups, wireframes
+  PROTOTYPE       // Working prototype / demo
+  CODE            // Source code, repository
+  DEPLOYMENT      // Live deployment / staging URL
+  OTHER
+}
+
+enum MessageType {
+  TEXT
+  FILE
+  SYSTEM          // Auto-generated messages (status changes, etc.)
+}
+
+// ─── USER & AUTH ──────────────────────────────────────────────────────────
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String?
+  fullName        String
+  avatarUrl       String?
+  role            UserRole  @default(CLIENT)
+  emailVerified   Boolean   @default(false)
+  emailVerifiedAt DateTime?
+  mfaEnabled      Boolean   @default(false)
+  mfaSecret       String?
+  lastLoginAt     DateTime?
+  lastLoginIp     String?
+  failedLoginAttempts Int   @default(0)
+  lockedUntil     DateTime?
+  onboardingCompleted Boolean @default(false)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  memberships     Membership[]
+  apiKeys         ApiKey[]
+  usageLogs       UsageLog[]
+  blogPosts       BlogPost[]     @relation("author")
+  supportTickets  SupportTicket[] @relation("creator")
+  assignedTickets SupportTicket[] @relation("assignee")
+  ticketMessages  TicketMessage[]
+  notifications   Notification[]
+  sessions        Session[]
+  accounts        Account[]
+  projectMembers  ProjectMember[]
+  projectMessages ProjectMessage[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  userAgent    String?
+  ipAddress    String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  type       String   @default("email")
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─── ORGANIZATION & TEAMS ─────────────────────────────────────────────────
+
+model Organization {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  logoUrl           String?
+  plan              Plan     @default(FREE)
+  stripeCustomerId  String?  @unique
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  memberships       Membership[]
+  apiKeys           ApiKey[]
+  subscription      Subscription?
+  invoices          Invoice[]
+  supportTickets    SupportTicket[]
+  webhookEndpoints  WebhookEndpoint[]
+  projects          Project[]
+
+  @@index([slug])
+  @@index([stripeCustomerId])
+  @@map("organizations")
+}
+
+model Membership {
+  id         String         @id @default(cuid())
+  userId     String
+  orgId      String
+  role       MembershipRole @default(MEMBER)
+  invitedBy  String?
+  acceptedAt DateTime?
+
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, orgId])
+  @@index([orgId])
+  @@map("memberships")
+}
+
+// ─── API KEYS ─────────────────────────────────────────────────────────────
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  orgId      String
+  keyHash    String    @unique
+  keyPrefix  String
+  name       String
+  scopes     String[]
+  rateLimit  Int       @default(200)
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  revokedAt  DateTime?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [orgId], references: [id])
+  usageLogs    UsageLog[]
+
+  @@index([keyHash])
+  @@index([userId])
+  @@index([orgId])
+  @@map("api_keys")
+}
+
+// ─── AI MODELS & DEPLOYMENTS ──────────────────────────────────────────────
+
+model AiModel {
+  id             String        @id @default(cuid())
+  name           String
+  slug           String        @unique
+  category       ModelCategory
+  description    String        @db.Text
+  capabilities   String[]
+  pricingInput   Float
+  pricingOutput  Float
+  maxTokens      Int
+  contextWindow  Int           @default(4096)
+  isActive       Boolean       @default(true)
+  isPublic       Boolean       @default(true)
+  provider       String        @default("cognispace")
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  deployments    Deployment[]
+  usageLogs      UsageLog[]
+
+  @@index([slug])
+  @@index([category])
+  @@index([isActive, isPublic])
+  @@map("ai_models")
+}
+
+model Deployment {
+  id             String           @id @default(cuid())
+  modelId        String
+  version        String
+  endpoint       String
+  region         String           @default("us-east-1")
+  status         DeploymentStatus @default(PENDING)
+  healthCheckUrl String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  model AiModel @relation(fields: [modelId], references: [id])
+
+  @@index([modelId])
+  @@index([status])
+  @@map("deployments")
+}
+
+// ─── BILLING & SUBSCRIPTIONS ──────────────────────────────────────────────
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  orgId                String             @unique
+  stripeSubscriptionId String?            @unique
+  plan                 Plan               @default(FREE)
+  status               SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean            @default(false)
+  trialStart           DateTime?
+  trialEnd             DateTime?
+
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id])
+  invoices     Invoice[]
+
+  @@index([status])
+  @@map("subscriptions")
+}
+
+model Invoice {
+  id               String        @id @default(cuid())
+  orgId            String
+  subscriptionId   String?
+  stripeInvoiceId  String?       @unique
+  amountDue        Int
+  amountPaid       Int           @default(0)
+  currency         String        @default("usd")
+  status           InvoiceStatus @default(DRAFT)
+  pdfUrl           String?
+  periodStart      DateTime
+  periodEnd        DateTime
+
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  organization Organization  @relation(fields: [orgId], references: [id])
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@index([orgId])
+  @@index([status])
+  @@map("invoices")
+}
+
+// ─── USAGE TRACKING ───────────────────────────────────────────────────────
+
+model UsageLog {
+  id           BigInt   @id @default(autoincrement())
+  userId       String
+  apiKeyId     String?
+  modelId      String?
+  endpoint     String
+  method       String
+  statusCode   Int
+  tokensInput  Int      @default(0)
+  tokensOutput Int      @default(0)
+  latencyMs    Int
+  metadata     Json?
+  ipAddress    String?
+  userAgent    String?
+
+  createdAt    DateTime @default(now())
+
+  user   User     @relation(fields: [userId], references: [id])
+  apiKey ApiKey?  @relation(fields: [apiKeyId], references: [id])
+  model  AiModel? @relation(fields: [modelId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([apiKeyId, createdAt])
+  @@index([modelId, createdAt])
+  @@index([createdAt])
+  @@index([statusCode, createdAt])
+  @@map("usage_logs")
+}
+
+// ─── BLOG / CONTENT ───────────────────────────────────────────────────────
+
+model BlogPost {
+  id             String     @id @default(cuid())
+  title          String
+  slug           String     @unique
+  excerpt        String?    @db.Text
+  content        String     @db.Text
+  coverImageUrl  String?
+  category       String
+  tags           String[]
+  authorId       String
+  status         PostStatus @default(DRAFT)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?
+  viewCount      Int        @default(0)
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  author User @relation("author", fields: [authorId], references: [id])
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@index([category])
+  @@map("blog_posts")
+}
+
+// ─── SUPPORT ──────────────────────────────────────────────────────────────
+
+model SupportTicket {
+  id          String         @id @default(cuid())
+  userId      String
+  orgId       String?
+  subject     String
+  category    String
+  priority    TicketPriority @default(MEDIUM)
+  status      TicketStatus   @default(OPEN)
+  assigneeId  String?
+  resolvedAt  DateTime?
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  creator      User            @relation("creator", fields: [userId], references: [id])
+  assignee     User?           @relation("assignee", fields: [assigneeId], references: [id])
+  organization Organization?   @relation(fields: [orgId], references: [id])
+  messages     TicketMessage[]
+
+  @@index([userId])
+  @@index([orgId])
+  @@index([status, priority])
+  @@index([assigneeId])
+  @@map("support_tickets")
+}
+
+model TicketMessage {
+  id             String   @id @default(cuid())
+  ticketId       String
+  senderId       String
+  content        String   @db.Text
+  attachmentUrls String[]
+  isInternal     Boolean  @default(false)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sender User          @relation(fields: [senderId], references: [id])
+
+  @@index([ticketId, createdAt])
+  @@map("ticket_messages")
+}
+
+// ─── NOTIFICATIONS ────────────────────────────────────────────────────────
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String
+  metadata  Json?
+  readAt    DateTime?
+
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt, createdAt])
+  @@map("notifications")
+}
+
+// ─── WEBHOOKS ─────────────────────────────────────────────────────────────
+
+model WebhookEndpoint {
+  id        String   @id @default(cuid())
+  orgId     String
+  url       String
+  secret    String
+  events    String[]
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organization  Organization     @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  deliveries    WebhookDelivery[]
+
+  @@index([orgId])
+  @@map("webhook_endpoints")
+}
+
+model WebhookDelivery {
+  id             String    @id @default(cuid())
+  endpointId     String
+  event          String
+  payload        Json
+  statusCode     Int?
+  responseBody   String?   @db.Text
+  latencyMs      Int?
+  attemptNumber  Int       @default(1)
+  nextRetryAt    DateTime?
+
+  createdAt      DateTime  @default(now())
+
+  endpoint WebhookEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@index([endpointId, createdAt])
+  @@map("webhook_deliveries")
+}
+
+// ─── ENTERPRISE LEADS ─────────────────────────────────────────────────────
+
+model EnterpriseLead {
+  id               String   @id @default(cuid())
+  companyName      String
+  companyWebsite   String?
+  companySize      String
+  industry         String
+  useCase          String   @db.Text
+  timeline         String
+  budgetRange      String
+  modelsOfInterest String[]
+  monthlyVolume    String
+  integrationReqs  String[]
+  contactName      String
+  contactEmail     String
+  contactPhone     String?
+  contactTitle     String?
+  meetingFormat    String?
+  referralSource   String?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([contactEmail])
+  @@map("enterprise_leads")
+}
+
+// ─── PROJECT PORTAL ──────────────────────────────────────────────────────
+
+model Project {
+  id              String        @id @default(cuid())
+  orgId           String
+  name            String
+  slug            String        @unique
+  description     String        @db.Text
+  status          ProjectStatus @default(DISCOVERY)
+
+  // Project details
+  startDate       DateTime?
+  targetEndDate   DateTime?
+  actualEndDate   DateTime?
+  budgetAmount    Int?          // In cents
+  budgetCurrency  String        @default("usd")
+
+  // Tech stack & scope
+  techStack       String[]      // ["Next.js", "Python", "PostgreSQL", "OpenAI"]
+  tags            String[]      // ["AI", "SaaS", "Healthcare"]
+
+  // Progress tracking (0-100)
+  progressPercent Int           @default(0)
+
+  // Cover image for the project card
+  coverImageUrl   String?
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  organization    Organization  @relation(fields: [orgId], references: [id])
+  milestones      Milestone[]
+  deliverables    Deliverable[]
+  messages        ProjectMessage[]
+  members         ProjectMember[]
+  activities      ProjectActivity[]
+
+  @@index([orgId])
+  @@index([status])
+  @@index([slug])
+  @@map("projects")
+}
+
+model ProjectMember {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  role      String   @default("member") // "lead", "member", "client", "viewer"
+
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@map("project_members")
+}
+
+model Milestone {
+  id           String          @id @default(cuid())
+  projectId    String
+  title        String
+  description  String?         @db.Text
+  status       MilestoneStatus @default(UPCOMING)
+  sortOrder    Int             @default(0)
+  dueDate      DateTime?
+  completedAt  DateTime?
+
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  project      Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  deliverables Deliverable[]
+
+  @@index([projectId, sortOrder])
+  @@map("milestones")
+}
+
+model Deliverable {
+  id            String          @id @default(cuid())
+  projectId     String
+  milestoneId   String?
+  title         String
+  description   String?         @db.Text
+  type          DeliverableType @default(DOCUMENT)
+  fileUrl       String?
+  externalUrl   String?         // Link to Figma, GitHub repo, staging URL, etc.
+  version       String          @default("1.0")
+
+  // Client approval
+  approvedAt    DateTime?
+  approvedBy    String?
+  rejectedAt    DateTime?
+  rejectionNote String?         @db.Text
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  milestone Milestone? @relation(fields: [milestoneId], references: [id])
+
+  @@index([projectId])
+  @@index([milestoneId])
+  @@map("deliverables")
+}
+
+model ProjectMessage {
+  id          String      @id @default(cuid())
+  projectId   String
+  senderId    String
+  content     String      @db.Text
+  type        MessageType @default(TEXT)
+  attachments String[]    // File URLs
+  isRead      Boolean     @default(false)
+  readAt      DateTime?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sender  User    @relation(fields: [senderId], references: [id])
+
+  @@index([projectId, createdAt])
+  @@index([senderId])
+  @@map("project_messages")
+}
+
+model ProjectActivity {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String?
+  action    String   // "status_changed", "milestone_completed", "deliverable_uploaded", etc.
+  details   Json?    // { from: "IN_PROGRESS", to: "REVIEW" }
+
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+  @@map("project_activities")
+}

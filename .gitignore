@@ -31,6 +31,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment
+.env
 .env*.local
 .env.local
 .env.*.local
@@ -55,3 +56,5 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yml
+
+/generated/prisma

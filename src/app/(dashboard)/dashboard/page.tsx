@@ -1,10 +1,28 @@
-export default function DashboardPage() {
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import { findProjectsByOrgId, getUnreadMessageCount } from '@/lib/dal/projects';
+import { DashboardOverview } from '@/components/dashboard/dashboard-overview';
+
+export default async function DashboardPage() {
+  const session = await auth();
+  if (!session?.user) redirect('/auth/signin');
+
+  const orgId = session.user.orgId;
+  if (!orgId) redirect('/auth/signin');
+
+  const [projectsResult, unreadCount] = await Promise.all([
+    findProjectsByOrgId(orgId, { perPage: 50 }),
+    getUnreadMessageCount(session.user.id),
+  ]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900">Dashboard</h1>
-        <p className="mt-4 text-lg text-slate-600">Your AI workspace overview</p>
-      </div>
-    </div>
+    <DashboardOverview
+      user={{
+        fullName: session.user.fullName,
+        role: session.user.role,
+      }}
+      projects={projectsResult.data}
+      unreadMessages={unreadCount}
+    />
   );
 }

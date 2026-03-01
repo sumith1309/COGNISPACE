@@ -3,21 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { PricingToggle } from './pricing-toggle';
 import { PlanCard } from './plan-card';
 import { EnterpriseModal } from './enterprise-modal';
 import { PRICING_PLANS } from '@/lib/pricing-data';
-import type { BillingPeriod } from '@/lib/pricing-data';
 
-/**
- * Client wrapper that holds billing toggle state shared between
- * the page header and the plan cards. Accepts children to render
- * between the plan cards and the bottom CTA.
- */
 export function PricingSections({ children }: { children?: React.ReactNode }) {
-  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -29,9 +20,9 @@ export function PricingSections({ children }: { children?: React.ReactNode }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl"
+            className="text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl dark:text-white"
           >
-            Simple, transparent pricing
+            Transparent project pricing
           </motion.h1>
 
           <motion.p
@@ -42,23 +33,11 @@ export function PricingSections({ children }: { children?: React.ReactNode }) {
               delay: 0.1,
               ease: [0.21, 0.47, 0.32, 0.98],
             }}
-            className="mt-4 text-lg text-slate-500"
+            className="mt-4 text-lg text-slate-500 dark:text-slate-400"
           >
-            Start free, scale as you grow. No hidden fees, no surprises.
+            Choose the engagement model that fits your project. Every tier includes full IP
+            ownership and production-ready delivery.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.6,
-              delay: 0.2,
-              ease: [0.21, 0.47, 0.32, 0.98],
-            }}
-            className="mt-8 flex justify-center"
-          >
-            <PricingToggle value={billingPeriod} onChange={setBillingPeriod} />
-          </motion.div>
         </div>
       </section>
 
@@ -70,7 +49,6 @@ export function PricingSections({ children }: { children?: React.ReactNode }) {
               <PlanCard
                 key={plan.id}
                 plan={plan}
-                billingPeriod={billingPeriod}
                 index={index}
                 onContactSales={() => setModalOpen(true)}
               />
@@ -85,8 +63,8 @@ export function PricingSections({ children }: { children?: React.ReactNode }) {
       {/* ─── Slotted sections (calculator, comparison, FAQ) ─── */}
       {children}
 
-      {/* ─── Section 7: Bottom CTA ─── */}
-      <section className="bg-white py-16">
+      {/* ─── Bottom CTA ─── */}
+      <section className="bg-white py-16 dark:bg-slate-900">
         <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -94,14 +72,16 @@ export function PricingSections({ children }: { children?: React.ReactNode }) {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            <h2 className="text-2xl font-bold text-slate-900">Still have questions?</h2>
-            <p className="mt-2 text-slate-500">
-              Our team is here to help you find the right plan for your needs.
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+              Still have questions?
+            </h2>
+            <p className="mt-2 text-slate-500 dark:text-slate-400">
+              Our team is here to help you find the right engagement model for your project.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-              <Button onClick={() => setModalOpen(true)}>Talk to Sales</Button>
+              <Button onClick={() => setModalOpen(true)}>Talk to Us</Button>
               <Button variant="ghost" asChild>
-                <Link href={'/docs' as '/'}>Read the Docs</Link>
+                <Link href="/contact">Schedule a Call</Link>
               </Button>
             </div>
           </motion.div>

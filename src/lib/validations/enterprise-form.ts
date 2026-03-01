@@ -14,7 +14,7 @@ export type CompanyStepData = z.infer<typeof companyStepSchema>;
 /* ─── Step 2: Project Details ─── */
 
 export const projectStepSchema = z.object({
-  useCase: z.string().min(10, 'Please describe your use case (at least 10 characters)'),
+  useCase: z.string().min(10, 'Please describe your project (at least 10 characters)'),
   timeline: z.string().min(1, 'Please select a timeline'),
   budget: z.string().min(1, 'Please select a budget range'),
 });
@@ -24,9 +24,9 @@ export type ProjectStepData = z.infer<typeof projectStepSchema>;
 /* ─── Step 3: Technical Requirements ─── */
 
 export const technicalStepSchema = z.object({
-  models: z.array(z.string()).min(1, 'Please select at least one model'),
-  apiVolume: z.string().min(1, 'Please select expected API volume'),
-  integrations: z.array(z.string()).min(1, 'Please select at least one integration'),
+  services: z.array(z.string()).min(1, 'Please select at least one service'),
+  projectScale: z.string().min(1, 'Please select a project scale'),
+  requirements: z.array(z.string()).min(1, 'Please select at least one requirement'),
 });
 
 export type TechnicalStepData = z.infer<typeof technicalStepSchema>;
@@ -70,6 +70,7 @@ export const INDUSTRIES = [
   { value: 'legal', label: 'Legal' },
   { value: 'technology', label: 'Technology' },
   { value: 'education', label: 'Education' },
+  { value: 'logistics', label: 'Logistics' },
   { value: 'media', label: 'Media' },
   { value: 'other', label: 'Other' },
 ];
@@ -83,36 +84,36 @@ export const TIMELINES = [
 ];
 
 export const BUDGETS = [
-  { value: 'under-1k', label: 'Under $1,000/mo' },
-  { value: '1k-5k', label: '$1,000-5,000/mo' },
-  { value: '5k-20k', label: '$5,000-20,000/mo' },
-  { value: '20k+', label: '$20,000+/mo' },
+  { value: 'under-25k', label: 'Under $25,000' },
+  { value: '25k-50k', label: '$25,000-$50,000' },
+  { value: '50k-100k', label: '$50,000-$100,000' },
+  { value: '100k-250k', label: '$100,000-$250,000' },
+  { value: '250k+', label: '$250,000+' },
   { value: 'not-sure', label: 'Not sure yet' },
 ];
 
-export const MODEL_OPTIONS = [
-  { value: 'nlp', label: 'NLP / Text Generation' },
-  { value: 'vision', label: 'Vision / Image Analysis' },
-  { value: 'audio', label: 'Audio / Speech' },
-  { value: 'multimodal', label: 'Multimodal' },
-  { value: 'embeddings', label: 'Embeddings / Search' },
-  { value: 'fine-tuned', label: 'Custom Fine-tuned' },
+export const SERVICE_OPTIONS = [
+  { value: 'custom-dev', label: 'Custom AI Software Development' },
+  { value: 'ai-ml', label: 'AI/ML Engineering' },
+  { value: 'consulting', label: 'AI Strategy & Consulting' },
+  { value: 'ongoing-support', label: 'Ongoing AI Operations' },
 ];
 
-export const API_VOLUMES = [
-  { value: 'under-100k', label: 'Under 100K calls' },
-  { value: '100k-1m', label: '100K-1M' },
-  { value: '1m-10m', label: '1M-10M' },
-  { value: '10m+', label: '10M+' },
+export const PROJECT_SCALES = [
+  { value: 'mvp', label: 'MVP / Proof of Concept' },
+  { value: 'small', label: 'Small (1-2 months)' },
+  { value: 'medium', label: 'Medium (3-6 months)' },
+  { value: 'large', label: 'Large (6-12 months)' },
+  { value: 'enterprise', label: 'Enterprise (12+ months)' },
 ];
 
-export const INTEGRATION_OPTIONS = [
-  { value: 'rest-api', label: 'REST API' },
-  { value: 'python-sdk', label: 'Python SDK' },
-  { value: 'javascript-sdk', label: 'JavaScript SDK' },
-  { value: 'websocket', label: 'WebSocket / Streaming' },
-  { value: 'on-premise', label: 'On-premise deployment' },
-  { value: 'custom-sla', label: 'Custom SLA' },
+export const REQUIREMENT_OPTIONS = [
+  { value: 'web-app', label: 'Web Application' },
+  { value: 'mobile-app', label: 'Mobile Application' },
+  { value: 'api-backend', label: 'API / Backend' },
+  { value: 'data-pipeline', label: 'Data Pipeline' },
+  { value: 'ml-models', label: 'ML Models' },
+  { value: 'cloud-infra', label: 'Cloud Infrastructure' },
 ];
 
 export const MEETING_FORMATS = [
